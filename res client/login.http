@@ -1,0 +1,11 @@
+post https://filatelia.herokuapp.com/api/login
+content-type: application/json
+
+{
+   
+"email": "dorado@dorado.com",
+"password": "22102281"
+}
+
+###
+post http://localhost:3000/api/pruebas/

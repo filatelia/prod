@@ -1,0 +1,19 @@
+post https://filatelia.herokuapp.com/api/usuarios
+content-type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MDM1MjVlMzZkNTEzYjFiMzhlY2Y4YWIiLCJyb2xlIjoidXNlcl9yb2xlIiwiaWF0IjoxNjE0MTkxMzk0LCJleHAiOjE2MTQyNzc3OTR9.mmCIFOYG17fpPNdCJww0tUvDfRE00NUQLN3xUrjN6QE
+
+{
+"name" : "Dorado",
+"email": "doradasdsao@dor.maaasd",
+"password": "22102281"
+}
+
+###
+get http://localhost:3000/api/usuarios
+content-type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MDM1MjVlMzZkNTEzYjFiMzhlY2Y4YWIiLCJyb2xlIjoidXNlcl9yb2xlIiwiaWF0IjoxNjE0MTE4NzQ2LCJleHAiOjE2MTQxMTg4MzJ9.C-lP9Ic_aLubEgrrmLvNbJip9we875M0wnSo8nFn2Vg
+
+{
+    
+}
+
