@@ -1,19 +1,10 @@
-post https://filatelia.herokuapp.com/api/usuarios
+post http://localhost:3000/api/usuarios
 content-type: application/json
-x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MDM1MjVlMzZkNTEzYjFiMzhlY2Y4YWIiLCJyb2xlIjoidXNlcl9yb2xlIiwiaWF0IjoxNjE0MTkxMzk0LCJleHAiOjE2MTQyNzc3OTR9.mmCIFOYG17fpPNdCJww0tUvDfRE00NUQLN3xUrjN6QE
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xldXNlciI6ImNsaWVudGUiLCJuYW1lIjoiQ2xpZW50ZSBub3JtYWwiLCJlbWFpbCI6ImNsaWVudGVAZ21haWwuY29tIiwiZXN0YWRvIjp0cnVlLCJpYXQiOjE2MTQ1Mjc1NzUsImV4cCI6MTYxNDYxMzk3NX0.3FyPfqzz-ACtSbfYLixIYjn-k6uxUxZTeBXKNfkETV4
 
 {
-"name" : "Dorado",
-"email": "doradasdsao@dor.maaasd",
-"password": "22102281"
+"name" : "administrador",
+"email": "dorado@dorado.com",
+"password": "22102281",
+"roleuser": "admin"
 }
-
-###
-get http://localhost:3000/api/usuarios
-content-type: application/json
-x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MDM1MjVlMzZkNTEzYjFiMzhlY2Y4YWIiLCJyb2xlIjoidXNlcl9yb2xlIiwiaWF0IjoxNjE0MTE4NzQ2LCJleHAiOjE2MTQxMTg4MzJ9.C-lP9Ic_aLubEgrrmLvNbJip9we875M0wnSo8nFn2Vg
-
-{
-    
-}
-

@@ -36,13 +36,10 @@ const UsuarioSchema = Schema({
     codigopostal: {
         type: String
     },
-    cliente: {
-        type: Boolean,
-        default: false
-    },
+
     roleuser: {
         type: String,
-        default: 'user_role'
+        default: 'cliente'
     },
     estado: {
         type: Boolean,

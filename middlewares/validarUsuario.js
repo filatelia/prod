@@ -1,4 +1,6 @@
 const { response } = require('express');
+const jwt = require('jsonwebtoken');
+
 const bcrypt = require('bcryptjs');
 const Usuario = require('../models/usuario/usuario');
 
@@ -26,7 +28,27 @@ const validarExistenciaUsuario = async (req, res, next) => {
     }
 }
 
+const validarPermisos = async (req, res, next) => {
+    
+
+    
+    const { roleuser } = req.body;
+    console.log("user role: ", req.body);
+    if (roleuser.toLowerCase() === 'admin' ) {
+        next();
+    }else{
+
+        return res.status(400).json
+        ({
+            msg: "No tienes los permisos necesarios para ésta operación"
+        });
+
+    }
+
+
+}
 
 module.exports = {
-    validarExistenciaUsuario
+    validarExistenciaUsuario,
+    validarPermisos
 }

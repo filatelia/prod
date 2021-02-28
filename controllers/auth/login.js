@@ -14,7 +14,7 @@ const login = async( req, res = response ) => {
         if ( !usuarioDB ) {
             return res.status(404).json({
                 ok: false,
-                msg: 'Email no encontrado'
+                msg: 'Email o contraseña invalidos.'
             });
         }
 
@@ -22,13 +22,13 @@ const login = async( req, res = response ) => {
         if ( !validPassword ) {
             return res.status(400).json({
                 ok: false,
-                msg: 'Contraseña no válida'
+                msg: 'Email o contraseña invalidos.'
             });
         }
-        const token = await generarJWT( usuarioDB.id, usuarioDB.roleuser );
+        const token = await generarJWT( usuarioDB.roleuser, usuarioDB.name, usuarioDB.email, usuarioDB.uid, usuarioDB.estado );
         res.json({
             ok: true,
-            usuarioDB,
+            
             token
         })
 
