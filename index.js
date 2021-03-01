@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
+const fileUpload  = require('express-fileupload');
 
 const { dbConnection } = require('./database/config');
 
@@ -14,6 +15,12 @@ app.use( cors() );
 // Lectura y parseo del body
 app.use( express.json() );
 
+//carga de archivos con fileupload
+app.use(fileUpload({
+    useTempFiles : true,
+    tempFileDir : '/tmp/'
+}));
+
 // Base de datos
 dbConnection();
 
@@ -22,6 +29,7 @@ dbConnection();
 app.use( '/api/catalogo/paises', require('./routes/catalogo/pais') );
 app.use( '/api/catalogo/temas', require('./routes/catalogo/temas'));
 app.use( '/api/usuarios', require('./routes/usuarios/users'));
+app.use( '/api/catalogo/uploads', require('./routes/catalogo/imagenes_cat'));
 
 
 app.use( '/api/pruebas', require('./routes/pruebas/excel'));

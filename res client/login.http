@@ -30,9 +30,3 @@ content-type: application/json
 "password": "22102281"
 
 }
-
-  roleuser: 'cliente',
-  estado: true,
-  _id: 603bb2263db3ff2a28dba8ce,
-  name: 'Cliente normal',
-  email: 'cliente@gmail.com',
