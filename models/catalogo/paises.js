@@ -5,14 +5,23 @@ const PaisSchema = Schema({
         required: true,
         unique: true
      },
-     moneda : {
+     moneda_nombre : {
+        type : String,
+        required : false
+     },
+     
+     moneda_code : {
+        type : String,
+        required : false
+     },
+     abreviatura_uno : {
         type : String,
         required : true
      },
-     abreviatura : {
-        type : String,
-        required : true
-     },
+     abreviatura_dos : {
+      type : String,
+      required : false
+   },
      img : {
       type : String,
       required : true

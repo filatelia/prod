@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const fileUpload  = require('express-fileupload');
-
+const { verificarBanderasPaises }= require('./middlewares/setup');
 const { dbConnection } = require('./database/config');
 
 // Crear el servidor de express
@@ -22,8 +22,12 @@ app.use(fileUpload({
 }));
 
 // Base de datos
-dbConnection();
 
+ dbConnection();
+
+
+//setup - verificando y creando archivos necesarios
+verificarBanderasPaises();
 
 // Rutas
 app.use( '/api/catalogo/paises', require('./routes/catalogo/pais') );

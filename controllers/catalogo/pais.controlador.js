@@ -1,13 +1,32 @@
 const { response } = require('express');
 const Pais = require('../../models/catalogo/paises');
+const fs = require("fs");
+const Path = require("path");
 
-const getPais = async(req, res) => {
-    const pais = await Pais.find();
-    res.json({
-        ok: true,
-        pais
-    });
+const getPaisByName = async(req, res=response) => {
+    const names = req.params.name;
+
+ 
+function capitalizarPrimeraLetra(name) {
+    var namez = name.toLowerCase();
+  return namez.charAt(0).toUpperCase() + namez.slice(1);
 }
+
+const name = capitalizarPrimeraLetra(names); 
+    console.log("name: : ",name);
+    const paisEncontrado = await Pais.findOne({name});
+    console.log("pais encontrado", paisEncontrado);
+    if(!paisEncontrado){
+        return res.json("No se ha encontrado el pais, recuerde no usar caracteres especiales");
+         
+     }
+
+    const pahtImagen = Path.join(__dirname, '../..'+ paisEncontrado.img);
+    
+    console.log(pahtImagen);
+
+      return  res.sendFile(pahtImagen);
+    }
 
 const createPais = async(req, res = response) => {
 
@@ -120,7 +139,7 @@ const updatePais = async (req, res = response) => {
 
 
 module.exports = {
-    getPais,
+    getPaisByName,
     createPais,
     deletePais,
     updatePais
