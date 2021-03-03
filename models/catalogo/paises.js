@@ -5,6 +5,10 @@ const PaisSchema = Schema({
         required: true,
         unique: true
      },
+     para_buscar : {
+      type : String,
+      required : false
+   },
      moneda_nombre : {
         type : String,
         required : false

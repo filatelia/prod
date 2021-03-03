@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const ProductoSchema = Schema({
+const CatalogoSchema = Schema({
 
       name: {
         type: String,
@@ -71,12 +71,12 @@ const ProductoSchema = Schema({
     }
 }, { collection: 'bdfc_pais' })
 
-schema.plugin(require('mongoose-autopopulate'));
+CatalogoSchema.plugin(require('mongoose-autopopulate'));
 
-PaisSchema.method('toJSON', function () {
+CatalogoSchema.method('toJSON', function () {
     const { __v, _id, ...object } = this.toObject();
     object.uid = _id;
     return object;
 })
 
-module.exports = model('Pais', PaisSchema);
+module.exports = model('Catalogo', CatalogoSchema);

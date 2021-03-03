@@ -1,146 +1,67 @@
-const { response } = require('express');
-const Pais = require('../../models/catalogo/paises');
+const { response } = require("express");
+const Pais = require("../../models/catalogo/paises");
 const fs = require("fs");
 const Path = require("path");
 
-const getPaisByName = async(req, res=response) => {
-    const names = req.params.name;
+const getPaisById = async (req, res = response) => {
+  const _id = req.params.pid;
 
- 
-function capitalizarPrimeraLetra(name) {
-    var namez = name.toLowerCase();
-  return namez.charAt(0).toUpperCase() + namez.slice(1);
-}
+  const paisEncontrado = await Pais.findOne({ _id });
+  console.log("pais encontrado", paisEncontrado);
+  if (!paisEncontrado) {
+    return res.json("No se ha encontrado el pais con el id proporcionado");
+  }
 
-const name = capitalizarPrimeraLetra(names); 
-    console.log("name: : ",name);
-    const paisEncontrado = await Pais.findOne({name});
-    console.log("pais encontrado", paisEncontrado);
-    if(!paisEncontrado){
-        return res.json("No se ha encontrado el pais, recuerde no usar caracteres especiales");
-         
-     }
+  const pahtImagen = Path.join(__dirname, "../.." + paisEncontrado.img);
+  paisEncontrado.img = pahtImagen;
 
-    const pahtImagen = Path.join(__dirname, '../..'+ paisEncontrado.img);
-    
-    console.log(pahtImagen);
+  return res.json(paisEncontrado);
+};
 
-      return  res.sendFile(pahtImagen);
-    }
+const getPaisByName = async (req, res = response) => {
+  const names = req.params.name;
 
-const createPais = async(req, res = response) => {
-
-    const { name } = req.body;
+  if (names != "all") {
     try {
-        const existepais = await Pais.findOne({ name });
-        if ( existepais ) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'El pais ya existe'
-            });
-        }
-        const pais_ = new Pais( req.body );
-        // Guardar usuario
-        await pais_.save();
-        res.json({
-            ok: true,
-            pais_
-        });
+      const para_buscar = names.toLowerCase().replace(/\s+/g, "");
+      console.log("para buscar:", para_buscar);
+      const paisEncontrado = await Pais.findOne({ para_buscar });
+      console.log("pais encontrado", paisEncontrado);
+      if (!paisEncontrado) {
+        return res.json(
+          "No se ha encontrado el pais, recuerde no usar caracteres especiales"
+        );
+      }
 
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Error inesperado... revisar logs'
-        });
+      const pahtImagen = Path.join(__dirname, "../.." + paisEncontrado.img);
+      paisEncontrado.img = pahtImagen;
+
+      return res.json(paisEncontrado);
+    } catch (e) {
+      res.json({msg: e});
     }
-}
+  } else {
+    console.log("all, buscando");
+    const ret = await getTodosPaises();
+    return res.json({ ok: true, msg: ret });
+  }
+};
 
-const deletePais = async(req, res = response) => {
+const getTodosPaises = async (req, res = response) => {
+  const paisEncontrado = await Pais.find();
+  for (let index = 0; index < paisEncontrado.length; index++) {
+    console.log(paisEncontrado[index].name);
+    paisEncontrado[index].img = Path.join(
+      __dirname,
+      "../.." + paisEncontrado[index].img
+    );
+  }
 
-    const uid = req.params.id;
-
-    try {
-        const pais_ = await Pais.findById( uid );
-        if ( !pais_ ) {
-            return res.status(404).json({
-                ok: false,
-                msg: 'No existe un pais por ese id'
-            });
-        }
-
-
-        const paisActualizado = await Pais.findByIdAndUpdate( uid, { estado : false }, { new: true } );
-
-        //await Pais.findByIdAndDelete( uid );
-
-        res.json({
-            ok: true,
-            msg: "pais eliminado",
-            pais: paisActualizado
-        });
-
-    } catch (error) {
-
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Hable con el administrador'
-        });
-    }
-
-}
-
-
-const updatePais = async (req, res = response) => {
-
-    const uid = req.params.id;
-
-    try {
-
-        const pais_ = await Pais.findById( uid );
-
-        if ( !pais_ ) {
-            return res.status(404).json({
-                ok: false,
-                msg: 'No existe un pais por ese id'
-            });
-        }
-        // Actualizaciones
-        const { name, ...campos } = req.body;
-
-        if ( pais_.name !== name ) {
-
-            const existepais = await Pais.findOne({ name });
-            if ( existepais ) {
-                return res.status(400).json({
-                    ok: false,
-                    msg: "ya existe un Pais con ese nombre"
-                });
-            }
-        }
-
-        const paisActualizado = await Pais.findByIdAndUpdate( uid, campos, { new: true } );
-
-        res.json({
-            ok: true,
-            pais : paisActualizado
-        });
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Error inesperado'
-        })
-    }
-
-}
-
+  return paisEncontrado;
+};
 
 module.exports = {
-    getPaisByName,
-    createPais,
-    deletePais,
-    updatePais
-}
+  getPaisByName,
+  getPaisById,
+  getTodosPaises,
+};
