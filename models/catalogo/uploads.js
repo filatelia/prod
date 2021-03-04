@@ -6,6 +6,11 @@ const uploads_ImagenSchema = Schema({
         require: true,
         unique: true
     },
+    name_buscar : {
+        type: String,
+        require: true,
+        unique: true
+    },
     imagen_url : {
         type:String,
         require: true,

@@ -2,11 +2,12 @@
     Ruta: /api/catalogo/uploads
 */
 const { Router } = require('express');
-const { createImage } = require('../../controllers/catalogo/uploads.controlador');
+const { createImageCat, createImageTema } = require('../../controllers/catalogo/uploads.controlador');
 const router = Router();
 const {validarImg, verificarRepetida} = require('../../middlewares/cat_imagenes');
 
 
-router.post( '/', [validarImg, verificarRepetida], createImage);
+router.post( '/cat', [validarImg, verificarRepetida], createImageCat);
+router.post( '/temas', [validarImg, verificarRepetida], createImageTema);
 
 module.exports = router;

@@ -9,33 +9,28 @@ const getTemas = async(req, res) => {
     });
 }
 
-const createTema = async(req, res = response) => {
+const createTema = async(name) => {
 
-    const { name } = req.body;
+
     try {
         const existetema = await Tema.findOne({ name });
         if ( existetema ) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'El tema ya existe'
-            });
+            return "tema ya existe";
         }
-        const tema_ = new Tema( req.body );
+        const tema_= new Tema( req.body );
         // Guardar usuario
-        await tema_.save();
-        res.json({
-            ok: true,
-            tema_
-        });
+         const tema_nuevo = await tema_.save();
+         return tema_nuevo;
+        
+
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Error inesperado... revisar logs'
-        });
+      return  console.log(error);
     }
-}
+       
+        ;
+    }
+
 
 const deleteTema = async(req, res = response) => {
 

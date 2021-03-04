@@ -1,3 +1,4 @@
+const { Console } = require("console");
 const { response } = require("express");
 const path = require("path");
 const Imagenes = require("../../models/catalogo/uploads");
@@ -10,7 +11,7 @@ const getImages = async (req, res) => {
   });
 };
 
-const createImage = async (req, res = response) => {
+const createImageCat = async (req, res = response) => {
 
   if (!req.files || Object.keys(req.files).length === 0) {
     res.status(400).send("No hay un archivo seleccionado");
@@ -23,7 +24,7 @@ const createImage = async (req, res = response) => {
 
   const uploadPath = path.join(
     __dirname,
-    "../../uploads/imagenes/" + sampleFile.name
+    "../../uploads/imagenes/catalogo/cat/" + sampleFile.name
   );
 
   sampleFile.mv(uploadPath, (err) => {
@@ -36,17 +37,67 @@ const createImage = async (req, res = response) => {
 
   });
 
-  const imagen_url = "/uploads/imagenes/" + sampleFile.name;
+  const imagen_url = "/uploads/imagenes/catalogo/cat/" + sampleFile.name;
 
+  const nombreSeparado = sampleFile.name.split(".");
+  const formatoArchivo = nombreSeparado[nombreSeparado.length - 1];
   //Guardando informacion de la imagen en la bd.
   req.body.name = sampleFile.name;
+  req.body.name_buscar = nombreSeparado[0].toLowerCase().replace(/\s+/g, '')+"."+nombreSeparado[1].toLowerCase().replace(/\s+/g, '');
   req.body.imagen_url= imagen_url;
   const imagen_ = new Imagenes( req.body);
   // Guardar usuario
-  await imagen_.save();
-  res.json({
+ const imagen_subida= await imagen_.save();
+  console.log("imagen subida: ", imagen_subida);
+  imagen_subida.imagen_url = path.join(__dirname, "../.." + imagen_subida.imagen_url);
+ res.json({
       ok: true,
-      imagen_
+      imagen_subida
+  });
+};
+
+const createImageTema = async (req, res = response) => {
+
+  if (!req.files || Object.keys(req.files).length === 0) {
+    res.status(400).send("No hay un archivo seleccionado");
+    return;
+  }
+
+  console.log("imagen: ", req.files); 
+
+  const { sampleFile } = req.files;
+
+  const uploadPath = path.join(
+    __dirname,
+    "../../uploads/imagenes/catalogo/tema/" + sampleFile.name
+  );
+
+  sampleFile.mv(uploadPath, (err) => {
+    if (err) {
+      console.log("error:", err);
+      return res.status(500).json({
+        msg: err,
+      });
+    }
+
+  });
+
+  const imagen_url = "/uploads/imagenes/catalogo/tema/" + sampleFile.name;
+
+  const nombreSeparado = sampleFile.name.split(".");
+  const formatoArchivo = nombreSeparado[nombreSeparado.length - 1];
+  //Guardando informacion de la imagen en la bd.
+  req.body.name = sampleFile.name;
+  req.body.name_buscar = nombreSeparado[0].toLowerCase().replace(/\s+/g, '');
+  req.body.imagen_url= imagen_url;
+  const imagen_ = new Imagenes( req.body);
+  // Guardar usuario
+ const imagen_subida= await imagen_.save();
+  console.log("imagen subida: ", imagen_subida);
+  imagen_subida.imagen_url = path.join(__dirname, "../.." + imagen_subida.imagen_url);
+ res.json({
+      ok: true,
+      imagen_subida
   });
 };
 
@@ -128,7 +179,8 @@ const updateImage = async (req, res = response) => {
 
 module.exports = {
   getImages,
-  createImage,
+  createImageCat,
+  createImageTema,
   deleteImage,
   updateImage,
 };

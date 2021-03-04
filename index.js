@@ -33,7 +33,7 @@ verificarBanderasPaises();
 app.use( '/api/catalogo/paises', require('./routes/catalogo/pais') );
 app.use( '/api/catalogo/temas', require('./routes/catalogo/temas'));
 app.use( '/api/usuarios', require('./routes/usuarios/users'));
-app.use( '/api/catalogo/uploads', require('./routes/catalogo/imagenes_cat'));
+app.use( '/api/catalogo/uploads/catalogo', require('./routes/catalogo/imagenes_cat'));
 app.use( '/api/catalogo/uploads/excel', require('./routes/catalogo/catalogo'));
 
 

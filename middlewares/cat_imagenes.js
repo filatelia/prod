@@ -10,6 +10,7 @@ const validarImg = async (req, res = response, next) => {
     const formatoArchivo = nombreSeparado[nombreSeparado.length - 1];
 
     if (
+      formatoArchivo.toLowerCase() === "webp" ||
       formatoArchivo.toLowerCase() === "png" ||
       formatoArchivo.toLowerCase() === "jpg" ||
       formatoArchivo.toLowerCase() === "jpeg"
@@ -19,7 +20,7 @@ const validarImg = async (req, res = response, next) => {
     } else {
       res.status(400).json({
         msg: "El formato " + formatoArchivo + " no está permitido.",
-        formatos_Permitidos: "png | jpg | jpeg",
+        formatos_Permitidos: "png | jpg | jpeg | webp",
       });
     }
   } catch (e) {

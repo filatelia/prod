@@ -1,77 +1,67 @@
 const { Schema, model } = require('mongoose');
 const CatalogoSchema = Schema({
 
-      name: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    descripcion: {
+
+    Descripcion: {
         type: String,
         required: true
     },
-    tipo: [{
-        type: Schema.Types.ObjectId,
-        ref: 'tipo_cat',
-        autopopulate: true,
+    Codigo: {
+        type: String,
+        required: false
+    },
+    Tipo: {
+        type: String,
         required: true
-    }],
-    pais: [{
-        type: Schema.Types.ObjectId,
-        ref: 'pais',
-        autopopulate: true,
+    },
+ 
+    Pais: {
+        type: String,
         required: true
-    }],
-    tema: [{
-        type: Schema.Types.ObjectId,
-        ref: 'temas',
-        autopopulate: true,
+    },
+    Tema: {
+        type: String,
         required: true
-    }],
-    anio: {
+    },
+    Anio: {
         type: Number,
         required: true
     },
-    grupo: {
+    Grupo: {
         type: Number,
         required: true
     },
-    img: {
+    Foto_JPG_800x800_px: {
         type: String,
         required: true
     },
-    num_estampillas: {
+    Nro_Estampillas: {
         type: Number,
         required: true
     },
-    descripcion_serie: {
+    Descripcion_de_la_serie: {
         type: String,
         required: true
     },
-    valor_facial: {
+    Valor_Facial: {
         type: String,
-        required: true
+        required: false
     },
-    num_catalogo: {
+    Numero_de_catalogo: {
         type: String,
-        required: true
+        required: false
     },
-    valor_catalogo: {
+    Valor_del_Catalogo: {
         type: String,
-        required: true
-    },
-    fecha: {
-        type: Date,
-        required: true
+        required: false
     },
 
     estado: {
         type: Boolean,
         default: true
     }
-}, { collection: 'bdfc_pais' })
+}, { collection: 'bdfc_catalogo' })
 
-CatalogoSchema.plugin(require('mongoose-autopopulate'));
 
 CatalogoSchema.method('toJSON', function () {
     const { __v, _id, ...object } = this.toObject();
