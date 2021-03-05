@@ -1,7 +1,6 @@
 var excel = require("xlsx");
 const Tema = require("../models/catalogo/temas");
 const { response } = require("express");
-const Temas = require("../models/catalogo/temas");
 const Pais = require("../models/catalogo/paises");
 const Img = require("../models/catalogo/uploads");
 const Catalogo = require("../models/catalogo/catalogo");
@@ -11,16 +10,19 @@ const verificarTemaYCrearlo = async (req, res = response, next) => {
   try {
     const exc = req.files;
     const datos = procesarExcel(exc);
+ //   console.log("datios:", datos);
 
+ var contador = 0;
     for (let index = 0; index < datos.length; index++) {
       var excel_sub = new Object();
       var tema_guardar = new Object();
 
-      tema_guardar.name = datos[index].Seccion;
-      const name = datos[index].Seccion;
+      tema_guardar.name = datos[index].Tema;
+      const name = datos[index].Tema;
       const tema = await Tema.findOne({ name });
+
       if (tema == null) {
-        console.log("No existe tema ".blue + name + ", creando tema...".blue);
+        console.log(colors.blue(">No existe tema " + name + ", creando tema..."));
         try {
           //buscando temas para guardar
           const UrlImgBD = await buscandoUrlImgTema(name);
@@ -29,7 +31,8 @@ const verificarTemaYCrearlo = async (req, res = response, next) => {
           const objTema = new Tema(tema_guardar);
 
           const temaCreado = await objTema.save();
-          console.log("Se ha creado el tema ".blue, temaCreado.name);
+          console.log(colors.blue(">> Se ha creado el tema ", temaCreado.name));
+          contador++;
         } catch (e) {
           return res.json({
             ok: false,
@@ -38,6 +41,8 @@ const verificarTemaYCrearlo = async (req, res = response, next) => {
         }
       }
     }
+    console.log(colors.blue(">>> Temas creados:", contador));
+
     next();
   } catch (e) {
     return res.json({
@@ -62,6 +67,7 @@ function procesarExcel(exc) {
     const nombreHoja = ex.SheetNames;
     let datos = excel.utils.sheet_to_json(ex.Sheets[nombreHoja[0]]);
     return datos;
+
   } catch (e) {
     console.log("error: ", e);
   }
@@ -94,11 +100,11 @@ async function buscandoUrlImgTema(name) {
     imagenExistente = await Img.findOne({ name_buscar });
 
     if (imagenExistente == null) {
-      console.log(
-        "No se encontrtó imagen para el tema '".blue +
+      console.log( colors.blue(
+        "No se encontrtó imagen para el tema '" +
           name +
-          "', pro lo tanto se le asigna una imagen predeterminada".blue
-      );
+          "', pro lo tanto se le asigna una imagen predeterminada"
+      ));
       const imagen_url = "/uploads/imagenes/predeterminadas/temas.png";
       return imagen_url;
     }
@@ -108,12 +114,14 @@ async function buscandoUrlImgTema(name) {
       "error al consultar imagen de tema, comuniquese con el administrador",
       e
     );
+    return;
   }
 }
 
 
 module.exports = {
-  procesarExcel,
+
+
   asignarImagenes,
   verificarTemaYCrearlo,
   buscandoUrlImgCat

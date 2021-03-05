@@ -4,9 +4,8 @@ const Catalogo = require("../../models/catalogo/catalogo");
 var colors = require("colors");
 const Tema = require("../../models/catalogo/temas");
 const Img = require("../../models/catalogo/uploads");
-
-
-
+const fs = require("fs");
+const Path = require("path");
 
 const crearCatalogo = async (req, res = response) => {
   try {
@@ -18,23 +17,19 @@ const crearCatalogo = async (req, res = response) => {
         ""
       );
 
-     
-
       const urlImagenCat = await buscandoUrlImgCat(element);
-      console.log("url recibida: ", urlImagenCat);
 
-     datos[index].Foto_JPG_800x800_px =urlImagenCat;
+      datos[index].Foto_JPG_800x800_px = urlImagenCat;
 
-      const nuevoCatalogo= new Catalogo(datos[index]);
-      console.log("Nuevo catalogo: ", nuevoCatalogo);
+      const nuevoCatalogo = new Catalogo(datos[index]);
 
-    const catalogoGuardado= await nuevoCatalogo.save();
-    console.log("Catalogo guardado: ", catalogoGuardado);
-
+      await nuevoCatalogo.save();
     }
-    return res.json({ok: true,
-    msg: "Excel procesado, individualizado, validado y creado en forma de catálogo"});
-
+    return res.json({
+      ok: true,
+      msg:
+        "Excel procesado, individualizado, validado y creado en forma de catálogo",
+    });
   } catch (e) {
     return res.json({
       ok: false,
@@ -44,6 +39,22 @@ const crearCatalogo = async (req, res = response) => {
   }
 };
 
+const mostrarCatalogo = async (req, res) => {
+  console.log("entramos");
+  const catalogoCompleto = await Catalogo.find();
+
+  for (let index = 0; index < catalogoCompleto.length; index++) {
+    const element = catalogoCompleto[index].Foto_JPG_800x800_px;
+
+    const pahtImagen = Path.join(
+      __dirname,
+      "../.." + catalogoCompleto[index].Foto_JPG_800x800_px
+    );
+    catalogoCompleto[index].Foto_JPG_800x800_px = pahtImagen;
+  }
+
+  res.json({ catalogoCompleto });
+};
 
 //funciones
 function procesarExcel(exc) {
@@ -64,11 +75,12 @@ async function buscandoUrlImgCat(name) {
     imagenExistente = await Img.findOne({ name_buscar });
 
     if (imagenExistente == null) {
-      console.log(
-        "No se encontrtó imagen para la estampilla '".blue +
+      
+      console.log(colors.blue(
+        ">No se encontrtó imagen para la estampilla " +
           name +
-          "', por lo tanto se le asigna una imagen predeterminada".blue
-      );
+          ", por lo tanto se le asigna una imagen predeterminada"
+      ));
       const imagen_url = "/uploads/imagenes/predeterminadas/estampillas.jpg";
       return imagen_url;
     }
@@ -83,4 +95,5 @@ async function buscandoUrlImgCat(name) {
 
 module.exports = {
   crearCatalogo,
+  mostrarCatalogo,
 };

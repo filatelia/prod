@@ -3,8 +3,9 @@
 */
 const { Router } = require('express');
 const router = Router();
-const { crearCatalogo } = require('../../controllers/catalogo/catalogo.controlador');
-const { verificarTemaYCrearlo, asignarImagenes } = require('../../middlewares/excel');
+const { crearCatalogo, mostrarCatalogo } = require('../../controllers/catalogo/catalogo.controlador');
+const { verificarTemaYCrearlo } = require('../../middlewares/excel');
+
 
 
 router.post( '/', [verificarTemaYCrearlo], crearCatalogo);
