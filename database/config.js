@@ -8,7 +8,11 @@ const dbConnection = async() => {
         await mongoose.connect( 'mongodb+srv://'+process.env.US+':'+process.env.PS+'@cluster0.4io1z.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'  , {
             useNewUrlParser: true, 
             useUnifiedTopology: true,
-            useCreateIndex: true
+            useCreateIndex: true,
+            findOneAndUpdate: false,
+            findOneAndDelete: false,
+            useFindAndModify: false
+
         });
 
         console.log('DB Online');

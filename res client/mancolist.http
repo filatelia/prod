@@ -1,0 +1,16 @@
+post http://localhost:3000/api/catalogo/manco_list/
+content-type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xldXNlciI6ImFkbWluIiwibmFtZSI6IkFkbWluaXN0cmFkb3IiLCJlbWFpbCI6ImRvcmFkb0Bkb3JhZG8uY29tIiwiZXN0YWRvIjp0cnVlLCJpYXQiOjE2MTUwNjkxMzAsImV4cCI6MTYxNTE1NTUzMH0.aa1k7btx4y67BxfhwjQfTwTdT90tTPEZAlVgVoWeyPI
+
+{
+"id_estampilla":[ "60418907b63e2b1ed807cd92"]
+}
+
+###
+post http://localhost:3000/api/catalogo/manco_list/listar
+content-type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xldXNlciI6ImNsaWVudGUiLCJuYW1lIjoiQ2xpZW50ZSIsImVtYWlsIjoiY2xpZW50ZUBjbGllbnRlLmNvbSIsImVzdGFkbyI6dHJ1ZSwiaWF0IjoxNjE1MDY2Njg2LCJleHAiOjE2MTUxNTMwODZ9.QLfRcxr-ckwwCftxz3ALaKZ1SsC2eMgYHjgh-1LPLe4
+
+{
+
+}

@@ -36,6 +36,7 @@ app.use( '/api/usuarios', require('./routes/usuarios/users'));
 app.use( '/api/catalogo/uploads/catalogo', require('./routes/catalogo/imagenes_cat'));
 app.use( '/api/catalogo/uploads/excel', require('./routes/catalogo/catalogo'));
 app.use( '/api/catalogo/', require('./routes/catalogo/mostrarImgs'));
+app.use( '/api/catalogo/manco_list/', require('./routes/catalogo/manco_list'));
 
 
 app.use( '/api/pruebas', require('./routes/pruebas/excel'));

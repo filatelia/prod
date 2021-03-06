@@ -38,6 +38,27 @@ const validarJWT = (req, res, next) => {
  
 }
 
+const retornarDatosJWT = (token) => {
+
+    // Leer el Token
+   const objetoUser = new Object();
+
+ 
+    try {
+        
+        const  {email}   = jwt.verify( token, process.env.JWT_SECRET );
+        
+
+           return email;
+        
+
+
+    } catch (error) {
+        return objetoUser = null;
+    }
+ 
+}
+
 const validarDeJWTRoleAdmin = (req, res, next) => {
 
     // Leer el Token
@@ -63,5 +84,6 @@ const validarDeJWTRoleAdmin = (req, res, next) => {
 
 module.exports = {
     validarJWT,
-    validarDeJWTRoleAdmin
+    validarDeJWTRoleAdmin,
+    retornarDatosJWT
 }

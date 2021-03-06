@@ -75,12 +75,13 @@ async function buscandoUrlImgCat(name) {
     imagenExistente = await Img.findOne({ name_buscar });
 
     if (imagenExistente == null) {
-      
-      console.log(colors.blue(
-        ">No se encontrtó imagen para la estampilla " +
-          name +
-          ", por lo tanto se le asigna una imagen predeterminada"
-      ));
+      console.log(
+        colors.blue(
+          ">No se encontrtó imagen para la estampilla " +
+            name +
+            ", por lo tanto se le asigna una imagen predeterminada"
+        )
+      );
       const imagen_url = "/uploads/imagenes/predeterminadas/estampillas.jpg";
       return imagen_url;
     }
