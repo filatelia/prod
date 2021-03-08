@@ -29,7 +29,12 @@ const login = async( req, res = response ) => {
         res.json({
             ok: true,
             
-            token
+            token: token,
+            email:  usuarioDB.email,
+            name: usuarioDB.name,
+            role:  usuarioDB.roleuser,
+            
+
         })
 
     } catch (error) {
