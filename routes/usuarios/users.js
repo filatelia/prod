@@ -9,7 +9,7 @@ const { validarExistenciaUsuario } = require('../../middlewares/validarUsuario')
 router.get( '/',validarJWT,getUsuario );
 router.post('/', [ validarJWT,  validarDeJWTRoleAdmin, validarExistenciaUsuario] , createUsuario);
 //router.post('/', [ validarExistenciaUsuario] , createUsuario);
-router.put('/:id', validarJWT, updateUusuario);
+router.put('/', updateUusuario);
 router.delete('/:id', validarJWT, deleteUsuario);
 
 module.exports = router;

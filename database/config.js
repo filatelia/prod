@@ -9,8 +9,7 @@ const dbConnection = async() => {
             useNewUrlParser: true, 
             useUnifiedTopology: true,
             useCreateIndex: true,
-            findOneAndUpdate: false,
-            findOneAndDelete: false,
+           
             useFindAndModify: false
 
         });

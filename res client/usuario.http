@@ -8,3 +8,16 @@ content-type: application/json
 "password": "22102281",
 "roleuser": "cliente"
 }
+
+###
+
+put http://localhost:3000/api/usuarios
+content-type: application/json
+//x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xldXNlciI6ImFkbWluIiwibmFtZSI6ImFkbWluaXN0cmFkb3IiLCJlbWFpbCI6ImRvcmFkb0Bkb3JhZG8uY29tIiwiZXN0YWRvIjp0cnVlLCJpYXQiOjE2MTQ3MzM0NzMsImV4cCI6MTYxNDgxOTg3M30.lTZ45EORDeso5YdkUbeHeQh8-szlgF-x4Xo5C3EC3qg
+
+{
+"uid": "60417bb8f37c05074c85ddf7",    
+"name" : "Cliente modificado....",
+"password": "22102280",
+"telefono": "000000"
+}
