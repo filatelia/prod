@@ -18,7 +18,8 @@ app.use( express.json() );
 //carga de archivos con fileupload
 app.use(fileUpload({
     useTempFiles : true,
-    tempFileDir : '/tmp/'
+    tempFileDir : '/tmp/',
+    createParentPath: true
 }));
 
 // Base de datos

@@ -17,7 +17,18 @@ content-type: application/json
 
 {
 "uid": "60417bb8f37c05074c85ddf7",    
-"name" : "Cliente modificado....",
-"password": "22102280",
-"telefono": "000000"
+"name" : "Cliente modificado",
+"password": "22102280"
+
+}
+
+
+###
+
+delete http://localhost:3000/api/usuarios/2421412412
+content-type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xldXNlciI6ImFkbWluIiwibmFtZSI6IlJvZHJpZ29PbGFndWUiLCJlbWFpbCI6ImRvcmFkb0Bkb3JhZG8uY29tIiwiZXN0YWRvIjp0cnVlLCJpYXQiOjE2MTU0ODc2ODMsImV4cCI6MTYxNTU3NDA4M30.wFvq5QaIAzg7wImD_lVSdDpiUoyGBvQW-X47csBwAzc
+
+{
+
 }

@@ -40,7 +40,6 @@ const crearCatalogo = async (req, res = response) => {
 };
 
 const mostrarCatalogo = async (req, res) => {
-  console.log("entramos");
   const catalogoCompleto = await Catalogo.find();
 
   for (let index = 0; index < catalogoCompleto.length; index++) {

@@ -7,16 +7,5 @@ content-type: application/json
 }
 
 ###
-GET http://localhost:3000/api/catalogo/paises
-
-
-http://localhost:3000/api/catalogo/paises/Colombia
-
-http://localhost:3000/api/catalogo/paises/pid/:pid
-
-
-http://localhost:3000/api/catalogo/paises/all
-
-
-
-http://localhost:3000/api/catalogo/uploads/catalogo/cat
+GET http://localhost:3000/api/catalogo/uploads/excel
+content-type: application/json

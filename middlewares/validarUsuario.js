@@ -28,6 +28,22 @@ const validarExistenciaUsuario = async (req, res, next) => {
     }
 }
 
+const validarEmailDiferenteActualizar = async  (req, res, next) => {
+
+    const {email} = req.body;
+    if(email  ){
+        return res.json({
+            ok: false,
+            msg: "No debes enviar email"
+        });
+
+    }else{
+        next();
+    }
+
+
+}
+
 const validarPermisos = async (req, res, next) => {
     
 
@@ -50,5 +66,6 @@ const validarPermisos = async (req, res, next) => {
 
 module.exports = {
     validarExistenciaUsuario,
-    validarPermisos
+    validarPermisos,
+    validarEmailDiferenteActualizar
 }

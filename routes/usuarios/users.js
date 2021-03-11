@@ -2,14 +2,14 @@ const { Router } = require('express');
 const { getUsuario, createUsuario, updateUusuario, deleteUsuario } = require('../../controllers/usuario/usuario');
 const router = Router();
 const { validarJWT, validarDeJWTRoleAdmin } = require('../../middlewares/validar-jwt');
-const { validarExistenciaUsuario } = require('../../middlewares/validarUsuario');
+const { validarExistenciaUsuario, validarEmailDiferenteActualizar } = require('../../middlewares/validarUsuario');
 
 //Rutas para manejar usuarios donde se hacen las validaciones antes de entrar a la ruta
 
 router.get( '/',validarJWT,getUsuario );
-router.post('/', [ validarJWT,  validarDeJWTRoleAdmin, validarExistenciaUsuario] , createUsuario);
-//router.post('/', [ validarExistenciaUsuario] , createUsuario);
-router.put('/', updateUusuario);
-router.delete('/:id', validarJWT, deleteUsuario);
+//router.post('/', [ validarJWT,  validarDeJWTRoleAdmin, validarExistenciaUsuario] , createUsuario);
+router.post('/', createUsuario );
+router.put('/', validarEmailDiferenteActualizar, updateUusuario);
+router.delete('/:id', [validarJWT, validarDeJWTRoleAdmin], deleteUsuario);
 
 module.exports = router;

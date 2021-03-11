@@ -9,7 +9,8 @@ const UsuarioSchema = Schema({
         unique: true
     },
     imagenP: {
-        type: String
+        type: String,
+        required: true
     },
     telefono: {
         type: String
@@ -31,7 +32,10 @@ const UsuarioSchema = Schema({
         type: String
     },
     pais: {
-        type: String
+        type : Schema.Types.ObjectId,
+        ref: 'Pais',
+        required : false,
+        autopopulate: true
     },
     codigopostal: {
         type: String
@@ -47,12 +51,13 @@ const UsuarioSchema = Schema({
     }
 }, { collection: 'bdfu_usuarios' });
 
-
+UsuarioSchema.plugin(require('mongoose-autopopulate'));
 UsuarioSchema.method('toJSON', function() {
     const { __v, _id, password, ...object } = this.toObject();
     object.uid = _id;
     return object;
 })
+
 
 module.exports = model('Usuarios', UsuarioSchema);
 
