@@ -53,7 +53,7 @@ const mostrarCatalogo = async (req, res) => {
   }
 
 
-  res.json(catalogoCompleto );
+  res.json({catalogoCompleto} );
 };
 
 //funciones
