@@ -13,6 +13,10 @@ const CatalogoSchema = Schema({
     Tipo: {
         type: String,
         required: true
+    }, 
+    ParaBuscar: {
+        type: String,
+        required: true
     },
  
     Pais: {
