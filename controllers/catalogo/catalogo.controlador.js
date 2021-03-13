@@ -52,7 +52,8 @@ const mostrarCatalogo = async (req, res) => {
     catalogoCompleto[index].Foto_JPG_800x800_px = pahtImagen;
   }
 
-  res.json({ catalogoCompleto });
+
+  res.json(catalogoCompleto );
 };
 
 //funciones
@@ -63,6 +64,48 @@ function procesarExcel(exc) {
 
     const nombreHoja = ex.SheetNames;
     let datos = excel.utils.sheet_to_json(ex.Sheets[nombreHoja[0]]);
+    var datosValidos = new Array();
+
+    for (let index = 0; index < datos.length; index++) {
+      const element = datos[index];
+
+      if (element.Valor_del_Catalogo == "" || !element.Valor_del_Catalogo ) {
+
+        console.log(
+          colors.yellow(
+            "Valor del catalogo no proporcionado en estampilla " +
+              element.Codigo +
+              " se le asigna el Not Assigned"
+          )
+        );
+        element.Valor_del_Catalogo = 'Not Assigned';
+      }
+
+      if (element.Descripcion == "" || !element.Descripcion) {
+        console.log("limpio");
+        console.log(
+          colors.yellow(
+            "Descripción no proporcionado en estampilla " +
+              element.Codigo +
+              " se le asigna el Not Assigned"
+          )
+        );
+
+        element.Descripcion = 'Not Assigned';
+      }
+      if (element.Valor_Facial == "" || !element.Valor_Facial) {
+        console.log("limpio");
+        console.log(
+          colors.yellow(
+            "Valor Facial no proporcionado en estampilla " +
+              element.Codigo +
+              " se le asigna el Not Assigned"
+          )
+        );
+
+        element.Valor_Facial = 'Not Assigned';
+      }
+    }
     return datos;
   } catch (e) {
     console.log("error: ", e);

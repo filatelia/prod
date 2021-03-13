@@ -9,7 +9,9 @@ const { validarJWT,validarDeJWTRoleAdmin } = require('../../middlewares/index.mi
 
 
 
-router.post( '/', [validarJWT, validarDeJWTRoleAdmin, verificarTemaYCrearlo ], crearCatalogo);
+//router.post( '/', [validarJWT, validarDeJWTRoleAdmin, verificarTemaYCrearlo ], crearCatalogo);
+router.post( '/', [ ], crearCatalogo);
+
 router.get( '/', [], mostrarCatalogo);
 
 module.exports = router;

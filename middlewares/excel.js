@@ -63,7 +63,6 @@ function procesarExcel(exc) {
   try {
     const tmp = exc.sampleFile.tempFilePath;
     const ex = excel.readFile(tmp);
-
     const nombreHoja = ex.SheetNames;
     let datos = excel.utils.sheet_to_json(ex.Sheets[nombreHoja[0]]);
     return datos;
