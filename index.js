@@ -22,6 +22,8 @@ app.use(fileUpload({
     createParentPath: true
 }));
 
+app.use(express.static('uploads'));
+
 // Base de datos
 
  dbConnection();
