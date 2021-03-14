@@ -11,4 +11,4 @@ router.post( '/',[validarJWT], actualizarMancolist);
 router.post( '/listar/',[validarJWT], verMancolistPropia);
 
 module.exports = router;
-//Adasdasdas
+//Adasdasdasgit
