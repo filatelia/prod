@@ -113,16 +113,6 @@ console.log("Contador: ", contador);
 const mostrarCatalogo = async (req, res) => {
   const catalogoCompleto = await Catalogo.find();
 
-  for (let index = 0; index < catalogoCompleto.length; index++) {
-    const element = catalogoCompleto[index].Foto_JPG_800x800_px;
-
-    const pahtImagen = Path.join(
-      __dirname,
-      "../.." + catalogoCompleto[index].Foto_JPG_800x800_px
-    );
-    catalogoCompleto[index].Foto_JPG_800x800_px = pahtImagen;
-  }
-
   res.json({ catalogoCompleto });
 };
 
