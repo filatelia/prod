@@ -9,7 +9,7 @@ const { validarExistenciaUsuario, validarEmailDiferenteActualizar } = require('.
 router.get( '/',validarJWT,getUsuario );
 //router.post('/', [ validarJWT,  validarDeJWTRoleAdmin, validarExistenciaUsuario] , createUsuario);
 router.post('/', createUsuario );
-router.put('/', validarEmailDiferenteActualizar, updateUusuario);
+router.put('/', [validarJWT, validarEmailDiferenteActualizar], updateUusuario);
 router.delete('/:id', [validarJWT, validarDeJWTRoleAdmin], deleteUsuario);
 
 module.exports = router;

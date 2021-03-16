@@ -1,11 +1,14 @@
 
-const { eliminarFichero } = require('./eliminar_fichero');
-const { validarJWT, validarDeJWTRoleAdmin } = require('./validar-jwt');
+const { validarJWT, validarDeJWTRoleAdmin, retornarDatosJWT } = require('./validar-jwt');
+const { crearImagen,eliminarImagenServidor } = require("./subir_imagen");
+
 
 
 
 module.exports = {
     validarDeJWTRoleAdmin,
     validarJWT,
-    eliminarFichero
+    retornarDatosJWT,
+    eliminarImagenServidor, 
+    crearImagen
 }
