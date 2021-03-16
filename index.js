@@ -5,9 +5,10 @@ const cors = require('cors');
 const fileUpload  = require('express-fileupload');
 const { verificarBanderasPaises }= require('./middlewares/setup');
 const { dbConnection } = require('./database/config');
-
+const path = require('path');
 // Crear el servidor de express
 const app = express();
+app.use(express.static(path.join(__dirname, 'uploads') ) );
 
 // Configurar CORS
 app.use( cors() );
@@ -22,7 +23,6 @@ app.use(fileUpload({
     createParentPath: true
 }));
 
-app.use(express.static('uploads'));
 
 // Base de datos
 
