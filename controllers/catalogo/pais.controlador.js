@@ -33,9 +33,7 @@ const getPaisByName = async (req, res = response) => {
         );
       }
 
-      const pahtImagen = Path.join(__dirname, "../.." + paisEncontrado.img);
-      paisEncontrado.img = pahtImagen;
-
+    
       return res.json(paisEncontrado);
     } catch (e) {
       res.json({msg: e});
@@ -49,13 +47,7 @@ const getPaisByName = async (req, res = response) => {
 
 const getTodosPaises = async (req, res = response) => {
   const paisEncontrado = await Pais.find();
-  for (let index = 0; index < paisEncontrado.length; index++) {
-    console.log(paisEncontrado[index].name);
-    paisEncontrado[index].img = Path.join(
-      __dirname,
-      "../.." + paisEncontrado[index].img
-    );
-  }
+ 
 
   return paisEncontrado;
 };
