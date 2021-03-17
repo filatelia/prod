@@ -3,7 +3,7 @@
 */
 const { Router } = require('express');
 const router = Router();
-const { crearCatalogo, mostrarCatalogo } = require('../../controllers/catalogo/catalogo.controlador');
+const { crearCatalogo, mostrarCatalogo, eliminarCatalogo } = require('../../controllers/catalogo/catalogo.controlador');
 const { verificarTemaYCrearlo } = require('../../middlewares/excel');
 const { validarJWT,validarDeJWTRoleAdmin } = require('../../middlewares/index.middle');
 
@@ -11,6 +11,7 @@ const { validarJWT,validarDeJWTRoleAdmin } = require('../../middlewares/index.mi
 
 //router.post( '/', [validarJWT, validarDeJWTRoleAdmin, verificarTemaYCrearlo ], crearCatalogo);
 router.post( '/', [ ], crearCatalogo);
+router.delete( '/:id', [ ], eliminarCatalogo);
 
 router.get( '/', [], mostrarCatalogo);
 
