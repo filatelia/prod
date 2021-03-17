@@ -251,7 +251,7 @@ async function buscandoUrlImgCat(name) {
             ", por lo tanto se le asigna una imagen predeterminada"
         )
       );
-      const imagen_url = "/uploads/imagenes/predeterminadas/estampillas.jpg";
+      const imagen_url = "/imagenes/predeterminadas/estampillas.jpg";
       return imagen_url;
     }
     return imagenExistente.imagen_url;
