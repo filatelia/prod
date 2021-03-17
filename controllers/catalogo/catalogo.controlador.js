@@ -21,24 +21,20 @@ const crearCatalogo = async (req, res = response) => {
         inCompletos.push(element);
       }
     }
-  const datosFinal = await validarEstampillasRepetidas(completos);
-var contador = 0; 
-var repetidos = [];
-var noRepetidos = [];
+    const datosFinal = await validarEstampillasRepetidas(completos);
+    var contador = 0;
+    var repetidos = [];
+    var noRepetidos = [];
     for (let index = 0; index < datosFinal.length; index++) {
-      if (datosFinal[index].repetido == false ) {
+      if (datosFinal[index].repetido == false) {
         noRepetidos.push(datosFinal[index]);
-        
-      
-        
-        const element = datosFinal[index].Foto_JPG_800x800_px.toLowerCase().replace(
-          /\s+/g,
-          ""
-        );
-        datosFinal[index].ParaBuscar = datosFinal[index].Foto_JPG_800x800_px.toLowerCase().replace(
-          /\s+/g,
-          ""
-        );
+
+        const element = datosFinal[
+          index
+        ].Foto_JPG_800x800_px.toLowerCase().replace(/\s+/g, "");
+        datosFinal[index].ParaBuscar = datosFinal[
+          index
+        ].Foto_JPG_800x800_px.toLowerCase().replace(/\s+/g, "");
 
         const urlImagenCat = await buscandoUrlImgCat(element);
 
@@ -47,59 +43,58 @@ var noRepetidos = [];
         const nuevoCatalogo = new Catalogo(datosFinal[index]);
 
         await nuevoCatalogo.save();
-      }else{
-        contador = contador +1;
+      } else {
+        contador = contador + 1;
         repetidos.push(datosFinal[index]);
       }
     }
-console.log("Contador: ", contador);
+    console.log("Contador: ", contador);
     if (inCompletos.length == 0 && contador == 0) {
       return res.json({
         ok: true,
         msg:
           "Excel procesado, individualizado, validado y creado en forma de catálogo en un 100%",
-          total_estampillas: completos.length + " se han subido correctamente"
+        total_estampillas: completos.length + " se han subido correctamente",
       });
-    }
-    else{
-      if(contador != 0 && inCompletos.length != 0){
+    } else {
+      if (contador != 0 && inCompletos.length != 0) {
         return res.json({
           ok: true,
           msg:
             "Hubieron problemas para guardar todos los archivos porque datos *obligatorios del excel no estaban, si desea guardar todos los archivos revise el excel y otros se omitieron porque estaban repetidos",
-          archivos_subidos: noRepetidos.length + " se pudieron guardar correctamente",
-          numero_estampillas_incompletas: inCompletos.length + " no pudieron guardarse por datos obligatorios incompletos",
-          numero_estampillas_repetidas: contador + " no pudieron guardarse por estar repetidas",
+          archivos_subidos:
+            noRepetidos.length + " se pudieron guardar correctamente",
+          numero_estampillas_incompletas:
+            inCompletos.length +
+            " no pudieron guardarse por datos obligatorios incompletos",
+          numero_estampillas_repetidas:
+            contador + " no pudieron guardarse por estar repetidas",
           estampillas_erroneas: inCompletos,
-          estampillas_repetidas: repetidos
-
-  
+          estampillas_repetidas: repetidos,
         });
-      }
-      else{
-        if(contador != 0){
+      } else {
+        if (contador != 0) {
           return res.json({
             ok: true,
-            msg:
-              "Se omitieron algunas estampillas por estar repetidas",           
-              archivos_subidos: noRepetidos.length + " se pudieron guardar correctamente",
+            msg: "Se omitieron algunas estampillas por estar repetidas",
+            archivos_subidos:
+              noRepetidos.length + " se pudieron guardar correctamente",
             total_estampillas_omitidas: contador,
-            estipillas_omitidas: repetidos
-
-    
+            estipillas_omitidas: repetidos,
           });
         }
         return res.json({
           ok: true,
           msg:
             "Hubieron problemas para guardar todos los archivos porque datos *obligatorios del excel no estaban, si desea guardar todos los archivos revise el excel",
-          archivos_subidos: completos.length + " se pudieron guardar correctamente",
-          errores: inCompletos.length + " no pudieron guardarse por tener no tener los datos obligatorios",
-          estampillas_erroneas: inCompletos
-  
+          archivos_subidos:
+            completos.length + " se pudieron guardar correctamente",
+          errores:
+            inCompletos.length +
+            " no pudieron guardarse por tener no tener los datos obligatorios",
+          estampillas_erroneas: inCompletos,
         });
       }
-
     }
   } catch (e) {
     return res.json({
@@ -114,6 +109,26 @@ const mostrarCatalogo = async (req, res) => {
   const catalogoCompleto = await Catalogo.find();
 
   res.json({ catalogoCompleto });
+};
+const eliminarCatalogo = async (req, res) => {
+  const { id } = req.params;
+  try {
+    console.log("entramos a eliminar", id);
+
+    const eliminarElementoCatalogo = await Catalogo.findOneAndDelete(id);
+    console.log("elemento eliminado:", eliminarElementoCatalogo);
+
+    return res.json({
+      ok: true,
+      msg: "eliminado correctamente",
+    });
+  } catch (e) {
+    return res.json({
+      ok: false,
+      msg: "No se ha podido eliminar correctamente",
+      error: e
+    });
+  }
 };
 
 //funciones
@@ -200,30 +215,27 @@ function validarCamposExcel(datos) {
   return datos;
 }
 //Se verifica si las espampillas subidas ya existen en la base de datos
-async function validarEstampillasRepetidas (datosValidados) {
+async function validarEstampillasRepetidas(datosValidados) {
   var estampillasRepetidas = [];
   for (let index = 0; index < datosValidados.length; index++) {
     const element = datosValidados[index];
-    if(element.completo == true){
-
-      const buscarRepetido = await Catalogo.findOne({ ParaBuscar: element.Foto_JPG_800x800_px.toLowerCase().replace(
-        /\s+/g,
-        ""
-      ) });
+    if (element.completo == true) {
+      const buscarRepetido = await Catalogo.findOne({
+        ParaBuscar: element.Foto_JPG_800x800_px.toLowerCase().replace(
+          /\s+/g,
+          ""
+        ),
+      });
       if (buscarRepetido != null) {
         element.repetido = true;
-      }else{
+      } else {
         element.repetido = false;
-
       }
-      estampillasRepetidas.push(element); 
-
+      estampillasRepetidas.push(element);
     }
-    
   }
 
   return estampillasRepetidas;
-
 }
 
 async function buscandoUrlImgCat(name) {
@@ -254,4 +266,5 @@ async function buscandoUrlImgCat(name) {
 module.exports = {
   crearCatalogo,
   mostrarCatalogo,
+  eliminarCatalogo,
 };
