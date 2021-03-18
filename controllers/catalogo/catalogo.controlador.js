@@ -65,12 +65,11 @@ const crearCatalogo = async (req, res = response) => {
           msg:
             "Hubieron problemas para guardar todos los archivos porque datos *obligatorios del excel no estaban, si desea guardar todos los archivos revise el excel y otros se omitieron porque estaban repetidos",
           archivos_subidos:
-            noRepetidos.length + " se pudieron guardar correctamente",
+            noRepetidos.length,
           numero_estampillas_incompletas:
-            inCompletos.length +
-            " no pudieron guardarse por datos obligatorios incompletos",
+            inCompletos.length,
           numero_estampillas_repetidas:
-            contador + " no pudieron guardarse por estar repetidas",
+            contador,
           estampillas_erroneas: inCompletos,
           estampillas_repetidas: repetidos,
         });
@@ -81,7 +80,7 @@ const crearCatalogo = async (req, res = response) => {
             tipo_mensaje: "r",
             msg: "Se omitieron algunas estampillas por estar repetidas",
             archivos_subidos:
-              noRepetidos.length + " se pudieron guardar correctamente",
+              noRepetidos.length,
             total_estampillas_omitidas: contador,
             estipillas_omitidas: repetidos,
           });
@@ -92,10 +91,9 @@ const crearCatalogo = async (req, res = response) => {
           msg:
             "Hubieron problemas para guardar todos los archivos porque datos *obligatorios del excel no estaban, si desea guardar todos los archivos revise el excel",
           archivos_subidos:
-            completos.length + " se pudieron guardar correctamente",
+            completos.length,
           errores:
-            inCompletos.length +
-            " no pudieron guardarse por tener no tener los datos obligatorios",
+            inCompletos.length,
           estampillas_erroneas: inCompletos,
         });
       }
