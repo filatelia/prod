@@ -41,7 +41,11 @@ const crearCatalogo = async (req, res = response) => {
         const urlImagenCat = await buscandoUrlImgCat(element);
 
         datosFinal[index].Foto_JPG_800x800_px = urlImagenCat;
-        datosFinal[index].BanderaPais = "";
+        var { img }= await buscarPaisNombre(datosFinal[index].Pais);
+        datosFinal[index].BanderaPais = img;
+
+ 
+
         const nuevoCatalogo = new Catalogo(datosFinal[index]);
 
         await nuevoCatalogo.save();
@@ -112,7 +116,8 @@ const crearCatalogo = async (req, res = response) => {
 
 const buscarPaisNombre = async (names) => {
   const para_buscar = names.toLowerCase().replace(/\s+/g, "");
-  const paisEncontrado = await Pais.findOne({ para_buscar });
+  const paisEncontrado = await Pais.findOne({ para_buscar }, {_id:0, img:1 });
+  console.log("pais encontrado", paisEncontrado);
   return paisEncontrado;
 
 }
