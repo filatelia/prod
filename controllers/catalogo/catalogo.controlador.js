@@ -119,18 +119,10 @@ const buscarPaisNombre = async (names) => {
 
 const mostrarCatalogo = async (req, res) => {
   const catalogoCompleto = await Catalogo.find();
-  objMostrar = catalogoCompleto;
-  for (let index = 0; index < objMostrar.length; index++) {
-    const element = objMostrar[index];
-    var bandera= await buscarPaisNombre(element.Pais);
-    
-    objMostrar[index].BanderaPais = bandera.img;
-   
-  }
 
   res.json({
     ok: true, 
-    objMostrar: objMostrar
+    catalogoCompleto: catalogoCompleto
   });
 };
 const eliminarCatalogo = async (req, res) => {
