@@ -6,6 +6,8 @@ const Tema = require("../../models/catalogo/temas");
 const Img = require("../../models/catalogo/uploads");
 const fs = require("fs");
 const Path = require("path");
+const { getPaisByName } = require('../catalogo/pais.controlador');
+const Pais = require('../../models/catalogo/paises');
 
 const crearCatalogo = async (req, res = response) => {
   try {
@@ -39,7 +41,7 @@ const crearCatalogo = async (req, res = response) => {
         const urlImagenCat = await buscandoUrlImgCat(element);
 
         datosFinal[index].Foto_JPG_800x800_px = urlImagenCat;
-
+        datosFinal[index].BanderaPais = "";
         const nuevoCatalogo = new Catalogo(datosFinal[index]);
 
         await nuevoCatalogo.save();
@@ -108,10 +110,28 @@ const crearCatalogo = async (req, res = response) => {
   }
 };
 
+const buscarPaisNombre = async (names) => {
+  const para_buscar = names.toLowerCase().replace(/\s+/g, "");
+  const paisEncontrado = await Pais.findOne({ para_buscar });
+  return paisEncontrado;
+
+}
+
 const mostrarCatalogo = async (req, res) => {
   const catalogoCompleto = await Catalogo.find();
+  objMostrar = catalogoCompleto;
+  for (let index = 0; index < objMostrar.length; index++) {
+    const element = objMostrar[index];
+    var bandera= await buscarPaisNombre(element.Pais);
+    
+    objMostrar[index].BanderaPais = bandera.img;
+   
+  }
 
-  res.json({ catalogoCompleto });
+  res.json({
+    ok: true, 
+    objMostrar: objMostrar
+  });
 };
 const eliminarCatalogo = async (req, res) => {
   const { id } = req.params;
