@@ -18,10 +18,14 @@ const CatalogoSchema = Schema({
         type: String,
         required: true
     },
+    
  
     Pais: {
         type: String,
         required: true
+    },
+        BanderaPais: {
+        type: String
     },
     Tema: {
         type: String,
