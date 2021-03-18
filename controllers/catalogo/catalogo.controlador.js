@@ -52,14 +52,16 @@ const crearCatalogo = async (req, res = response) => {
     if (inCompletos.length == 0 && contador == 0) {
       return res.json({
         ok: true,
+        tipo_mensaje: "100",
         msg:
           "Excel procesado, individualizado, validado y creado en forma de catálogo en un 100%",
-        total_estampillas: completos.length + " se han subido correctamente",
+        total_estampillas: completos.length,
       });
     } else {
       if (contador != 0 && inCompletos.length != 0) {
         return res.json({
           ok: true,
+          tipo_mensaje: "f.r",
           msg:
             "Hubieron problemas para guardar todos los archivos porque datos *obligatorios del excel no estaban, si desea guardar todos los archivos revise el excel y otros se omitieron porque estaban repetidos",
           archivos_subidos:
@@ -76,6 +78,7 @@ const crearCatalogo = async (req, res = response) => {
         if (contador != 0) {
           return res.json({
             ok: true,
+            tipo_mensaje: "r",
             msg: "Se omitieron algunas estampillas por estar repetidas",
             archivos_subidos:
               noRepetidos.length + " se pudieron guardar correctamente",
@@ -85,6 +88,7 @@ const crearCatalogo = async (req, res = response) => {
         }
         return res.json({
           ok: true,
+          tipo_mensaje: "f",
           msg:
             "Hubieron problemas para guardar todos los archivos porque datos *obligatorios del excel no estaban, si desea guardar todos los archivos revise el excel",
           archivos_subidos:
@@ -99,7 +103,8 @@ const crearCatalogo = async (req, res = response) => {
   } catch (e) {
     return res.json({
       ok: false,
-      msg: "Contacte al administrador",
+      tipo_mensaje: "catch",
+      msg: "Has subido un documento que no tiene el formato correcto",
       error: e,
     });
   }
