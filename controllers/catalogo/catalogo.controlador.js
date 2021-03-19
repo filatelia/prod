@@ -6,8 +6,9 @@ const Tema = require("../../models/catalogo/temas");
 const Img = require("../../models/catalogo/uploads");
 const fs = require("fs");
 const Path = require("path");
-const { getPaisByName } = require('../catalogo/pais.controlador');
-const Pais = require('../../models/catalogo/paises');
+const { getPaisByName } = require("../catalogo/pais.controlador");
+const Pais = require("../../models/catalogo/paises");
+const { crearTema } = require("../../middlewares/index.middle");
 
 const crearCatalogo = async (req, res = response) => {
   try {
@@ -41,14 +42,25 @@ const crearCatalogo = async (req, res = response) => {
         const urlImagenCat = await buscandoUrlImgCat(element);
 
         datosFinal[index].Foto_JPG_800x800_px = urlImagenCat;
-        var { img }= await buscarPaisNombre(datosFinal[index].Pais);
-        datosFinal[index].BanderaPais = img;
 
- 
+        //Buscando id pais con el nombre
+        var { _id } = await buscarPaisNombre(datosFinal[index].Pais);
+        datosFinal[index].Pais = _id;
 
-        const nuevoCatalogo = new Catalogo(datosFinal[index]);
+        //Buscar o crear tema por nombre
 
-        await nuevoCatalogo.save();
+        console.log("tema enviado", datosFinal[index].Tema);
+
+        var temaCreado = await crearTema(datosFinal[index].Tema);
+
+        console.log("tema creadossssss->", temaCreado);
+        datosFinal[index].Tema = temaCreado;
+
+        var nuevoCatalogo = new Catalogo(datosFinal[index]);
+        console.log("Nuevo catalogo", nuevoCatalogo);
+
+        const guardar = await nuevoCatalogo.save();
+        console.log("Guardar::::", guardar);
       } else {
         contador = contador + 1;
         repetidos.push(datosFinal[index]);
@@ -70,12 +82,9 @@ const crearCatalogo = async (req, res = response) => {
           tipo_mensaje: "f.r",
           msg:
             "Hubieron problemas para guardar todos los archivos porque datos *obligatorios del excel no estaban, si desea guardar todos los archivos revise el excel y otros se omitieron porque estaban repetidos",
-          archivos_subidos:
-            noRepetidos.length,
-          numero_estampillas_incompletas:
-            inCompletos.length,
-          numero_estampillas_repetidas:
-            contador,
+          archivos_subidos: noRepetidos.length,
+          numero_estampillas_incompletas: inCompletos.length,
+          numero_estampillas_repetidas: contador,
           estampillas_erroneas: inCompletos,
           estampillas_repetidas: repetidos,
         });
@@ -85,8 +94,7 @@ const crearCatalogo = async (req, res = response) => {
             ok: true,
             tipo_mensaje: "r",
             msg: "Se omitieron algunas estampillas por estar repetidas",
-            archivos_subidos:
-              noRepetidos.length,
+            archivos_subidos: noRepetidos.length,
             total_estampillas_omitidas: contador,
             estipillas_omitidas: repetidos,
           });
@@ -96,10 +104,8 @@ const crearCatalogo = async (req, res = response) => {
           tipo_mensaje: "f",
           msg:
             "Hubieron problemas para guardar todos los archivos porque datos *obligatorios del excel no estaban, si desea guardar todos los archivos revise el excel",
-          archivos_subidos:
-            completos.length,
-          errores:
-            inCompletos.length,
+          archivos_subidos: completos.length,
+          errores: inCompletos.length,
           estampillas_erroneas: inCompletos,
         });
       }
@@ -116,18 +122,17 @@ const crearCatalogo = async (req, res = response) => {
 
 const buscarPaisNombre = async (names) => {
   const para_buscar = names.toLowerCase().replace(/\s+/g, "");
-  const paisEncontrado = await Pais.findOne({ para_buscar }, {_id:0, img:1 });
+  const paisEncontrado = await Pais.findOne({ para_buscar }, { _id: 1 });
   console.log("pais encontrado", paisEncontrado);
   return paisEncontrado;
-
-}
+};
 
 const mostrarCatalogo = async (req, res) => {
   const catalogoCompleto = await Catalogo.find();
 
   res.json({
-    ok: true, 
-    catalogoCompleto: catalogoCompleto
+    ok: true,
+    catalogoCompleto: catalogoCompleto,
   });
 };
 const eliminarCatalogo = async (req, res) => {
@@ -146,7 +151,7 @@ const eliminarCatalogo = async (req, res) => {
     return res.json({
       ok: false,
       msg: "No se ha podido eliminar correctamente",
-      error: e
+      error: e,
     });
   }
 };

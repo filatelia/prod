@@ -6,6 +6,8 @@ const fileUpload  = require('express-fileupload');
 const { verificarBanderasPaises }= require('./middlewares/setup');
 const { dbConnection } = require('./database/config');
 const path = require('path');
+const { Promise } = require('mongoose');
+const { promises } = require('dns');
 // Crear el servidor de express
 const app = express();
 app.use(express.static(path.join(__dirname, 'uploads') ) );
@@ -26,11 +28,13 @@ app.use(fileUpload({
 
 // Base de datos
 
- dbConnection();
+    dbConnection();
+
+
 
 
 //setup - verificando y creando archivos necesarios
-verificarBanderasPaises();
+ verificarBanderasPaises();
 
 // Rutas
 app.use( '/api/catalogo/paises', require('./routes/catalogo/pais') );

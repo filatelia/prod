@@ -6,6 +6,10 @@ const TemasSchema = Schema({
         require: true,
         unique: true
     },
+    ParaBuscar: {
+        type: String,
+        required: true
+    },
     imagen : {
         type:String,
         require: true,
