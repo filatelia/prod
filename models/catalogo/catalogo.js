@@ -21,15 +21,17 @@ const CatalogoSchema = Schema({
     
  
     Pais: {
-        type: String,
-        required: true
+        type : Schema.Types.ObjectId,
+        ref: 'Pais',
+        required : true,
+        autopopulate: true
     },
-        BanderaPais: {
-        type: String
-    },
+        
     Tema: {
-        type: String,
-        required: true
+        type : Schema.Types.ObjectId,
+        ref: 'Tema',
+        required : true,
+        autopopulate: true
     },
     Anio: {
         type: Number,
@@ -76,5 +78,6 @@ CatalogoSchema.method('toJSON', function () {
     object.uid = _id;
     return object;
 })
+CatalogoSchema.plugin(require('mongoose-autopopulate'));
 
 module.exports = model('Catalogo', CatalogoSchema);

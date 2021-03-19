@@ -28,7 +28,7 @@ const verificarBanderasPaises = async () => {
       abreviatura_uno: datos.alpha2Code,
       abreviatura_dos: datos.alpha3Code,
       img:
-        "/uploads/imagenes/banderas_paises/" +
+        "/imagenes/banderas_paises/" +
         datos.alpha3Code.toLowerCase() +
         ".svg",
     }));
