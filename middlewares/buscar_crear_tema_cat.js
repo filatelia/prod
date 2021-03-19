@@ -8,6 +8,7 @@ const buscarTema = async (name_buscar) => {
 
    var ParaBuscar =   name_buscar.toLowerCase().replace(/\s+/g, ""); 
     temaEncontrado = await Temas.findOne({ ParaBuscar }, { _id: 1 });
+    //
     console.log("tema recien encontrado", temaEncontrado);
     if (temaEncontrado != null) {
       return temaEncontrado;
