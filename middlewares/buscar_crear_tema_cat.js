@@ -4,9 +4,11 @@ const colors = require('colors');
 const buscarTema = async (name_buscar) => {
   var temaEncontrado = null;
   try {
-    var name = name_buscar.toLowerCase().replace(/\s+/g, "");
+   
 
-    temaEncontrado = await Temas.findOne({ name }, { _id: 1 });
+   var ParaBuscar =   name_buscar.toLowerCase().replace(/\s+/g, ""); 
+    temaEncontrado = await Temas.findOne({ ParaBuscar }, { _id: 1 });
+    console.log("tema recien encontrado", temaEncontrado);
     if (temaEncontrado != null) {
       return temaEncontrado;
     } else {
@@ -19,10 +21,11 @@ const buscarTema = async (name_buscar) => {
 
 const crearTema = async (name) => {
   var paraRetornar;
-
+console.log("Nombre de tema a evaluar y despues crear - Crar Tema", name);
   try {
     if (name && name != null) {
       const existeTema = await buscarTema(name);
+      console.log("Tema existente?", existeTema);
 
       if (existeTema != null) {
         return (paraRetornar = existeTema);
