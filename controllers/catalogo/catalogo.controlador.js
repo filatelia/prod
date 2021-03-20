@@ -64,6 +64,9 @@ const crearCatalogo = async (req, res = response) => {
           const guardar = await nuevoCatalogo.save();
           console.log("Guardar::::", guardar);
         }
+        else{
+          inCompletos.push(element)
+        }
       } else {
         contador = contador + 1;
         repetidos.push(datosFinal[index]);

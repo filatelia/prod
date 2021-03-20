@@ -10,6 +10,7 @@ const { Promise } = require('mongoose');
 const { promises } = require('dns');
 // Crear el servidor de express
 const app = express();
+app.use('/uploads',express.static(path.join(__dirname, 'uploads') ) );
 app.use(express.static(path.join(__dirname, 'uploads') ) );
 
 // Configurar CORS
