@@ -64,7 +64,6 @@ const crearCatalogo = async (req, res = response) => {
       } else {
         contador = contador + 1;
         repetidos.push(datosFinal[index]);
-        
       }
     }
     console.log("Contador: ", contador);
@@ -91,7 +90,6 @@ const crearCatalogo = async (req, res = response) => {
         });
       } else {
         if (contador != 0) {
-          
           return res.json({
             ok: true,
             tipo_mensaje: "r",
@@ -128,41 +126,46 @@ const editarCatExcel = async (req, res = response) => {
     const objActualizar = req.body;
 
     console.log("Tamaño array recibido", objActualizar.length);
+    let total_elementos_actualizar = objActualizar.length;
 
-    var intermedio = [];
-
-
+    var actualizados = [];
 
     if (objActualizar.length > 0) {
       for (let index = 0; index < objActualizar.length; index++) {
         const element = objActualizar[index];
-        console.log("sde envia en Pais -> ",objActualizar[index].Pais );
-        console.log("sde envia en Tema -> ",objActualizar[index].Tema );
-    
+        console.log("sde envia en Pais -> ", objActualizar[index].Pais);
+        console.log("sde envia en Tema -> ", objActualizar[index].Tema);
+
         var { _id } = await buscarPaisNombre(objActualizar[index].Pais);
         var temaCreado = await crearTema(objActualizar[index].Tema);
         element.Pais = _id;
         element.Tema = temaCreado;
 
-
         var ParaBuscar = element.ParaBuscar;
         const encontrarCatalogo = await Catalogo.findOneAndUpdate(
-          ParaBuscar, element, { new: true }
-                );
+          ParaBuscar,
+          element,
+          { new: true }
+        );
 
+        if (encontrarCatalogo && encontrarCatalogo != null) {
+          actualizados.push(element);
+        }
 
-
-
-       console.log("guardado", encontrarCatalogo);
-
-
-
+        console.log("guardado", encontrarCatalogo);
       }
+    } else {
+      return res.json({
+        ok: false,
+        mensaje: "Debes enviar un objeto que contenga datos",
+      });
     }
 
     return res.json({
       ok: true,
-      body: intermedio,
+      total_elementos_actualizar: total_elementos_actualizar,
+      total_elementos_actualizados: actualizados.length,
+      elementos_actualizados: actualizados,
     });
   } catch (e) {
     console.log("error", e);
