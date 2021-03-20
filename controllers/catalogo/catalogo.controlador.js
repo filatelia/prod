@@ -203,6 +203,50 @@ const mostrarCatalogoPais = async (req, res) => {
   });
 };
 
+//Mostrar catalogo por rango de años
+const mostrarCatalogoAnio = async (req, res) => {
+  const { anioI, anioF } = req.params;
+try {
+  if ( Number(anioI) && Number(anioF)) {
+    console.log("anio f", Number(anioF));
+    const catalogoCompleto = await Catalogo.find({
+      $and: [
+        {
+          Anio: {
+            $gte: Number(anioI),
+          },
+        },
+
+        {
+          Anio: {
+            $lte: Number(anioF),
+          },
+        },
+      ],
+    });
+
+    res.json({
+      ok: true,
+      catalogoPorPais: catalogoCompleto,
+    });
+  }else{
+    res.json({
+      ok: false,
+      catalogoPorPais: "Recierda que debes enviar valores numéricos",
+      datos_recibidos: "Año inicial: "+anioI+" | Año final: "+anioF
+    });
+
+  }
+
+} catch (e) {
+  return res.json({
+    ok:false,
+    mensaje: "Error crítico, comunicate con el administrador | catalogoControlador-> mostrarCatalogoAnio()"
+  });
+
+}
+};
+
 const mostrarCatalogo = async (req, res) => {
   const catalogoCompleto = await Catalogo.find();
 
@@ -370,4 +414,5 @@ module.exports = {
   eliminarCatalogo,
   editarCatExcel,
   mostrarCatalogoPais,
+  mostrarCatalogoAnio,
 };

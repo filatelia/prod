@@ -5,7 +5,7 @@ content-type: application/json
 "name" : "galleta"
 
 }
-
+api/catalogo/uploads/excel/actualizar-cat-excel
 ###
 GET http://localhost:3000/api/catalogo/paises/all
 content-type: application/json
