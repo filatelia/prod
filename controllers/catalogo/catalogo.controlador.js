@@ -66,6 +66,7 @@ const crearCatalogo = async (req, res = response) => {
         repetidos.push(datosFinal[index]);
       }
     }
+    console.log("Estamplillas repetidas ->");
     console.log("Contador: ", contador);
     if (inCompletos.length == 0 && contador == 0) {
       return res.json({
@@ -119,12 +120,65 @@ const crearCatalogo = async (req, res = response) => {
     });
   }
 };
+//Actualizar estapillas repetidas desde el excel.
+const editarCatExcel = async (req, res = response) => {
+  try {
+    const objActualizar = req.body;
+    console.log("tamaño", objActualizar.length);
+    if (objActualizar.length > 0) {
+      for (let index = 0; index < objActualizar.length; index++) {
+        const element = objActualizar[index];
+        console.log("Element", element);
+        var ParaBuscar = element.ParaBuscar;
+        console.log("para buscar", ParaBuscar);
+
+        const encontrarCatalogo = await Catalogo.findOne({
+          ParaBuscar: element.ParaBuscar,
+        });
+        console.log("catalogo encontrado: ", encontrarCatalogo);
+        encontrarCatalogo = objActualizar[index];
+        encontrarCatalogo.Tipo = "";
+        encontrarCatalogo.save();
+      }
+    }
+
+    return res.json({
+      ok: true,
+      body: encontrarCatalogo,
+    });
+  } catch (e) {
+    return res.json({
+      ok: false,
+      error: "error desde log",
+      tipo: e,
+    });
+  }
+};
 
 const buscarPaisNombre = async (names) => {
   const para_buscar = names.toLowerCase().replace(/\s+/g, "");
   const paisEncontrado = await Pais.findOne({ para_buscar }, { _id: 1 });
   console.log("pais encontrado", paisEncontrado);
   return paisEncontrado;
+};
+
+const mostrarCatalogoPais = async (req, res) => {
+  const { pais } = req.params;
+  var buscar = pais.toLowerCase().replace(/\s+/g, "");
+
+  const catalogoCompleto = await Catalogo.find();
+  var paisBuscado = [];
+  for (let index = 0; index < catalogoCompleto.length; index++) {
+    const element = catalogoCompleto[index].Pais.para_buscar;
+    if (element == buscar) {
+      paisBuscado.push(catalogoCompleto[index]);
+    }
+  }
+
+  res.json({
+    ok: true,
+    catalogoPorPais: paisBuscado,
+  });
 };
 
 const mostrarCatalogo = async (req, res) => {
@@ -292,4 +346,6 @@ module.exports = {
   crearCatalogo,
   mostrarCatalogo,
   eliminarCatalogo,
+  editarCatExcel,
+  mostrarCatalogoPais,
 };
