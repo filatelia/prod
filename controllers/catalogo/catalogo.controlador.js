@@ -64,9 +64,9 @@ const crearCatalogo = async (req, res = response) => {
       } else {
         contador = contador + 1;
         repetidos.push(datosFinal[index]);
+        
       }
     }
-    console.log("Estamplillas repetidas ->");
     console.log("Contador: ", contador);
     if (inCompletos.length == 0 && contador == 0) {
       return res.json({
@@ -91,13 +91,14 @@ const crearCatalogo = async (req, res = response) => {
         });
       } else {
         if (contador != 0) {
+          
           return res.json({
             ok: true,
             tipo_mensaje: "r",
             msg: "Se omitieron algunas estampillas por estar repetidas",
             archivos_subidos: noRepetidos.length,
             total_estampillas_omitidas: contador,
-            estipillas_omitidas: repetidos,
+            estampillas_repetidas: repetidos,
           });
         }
         return res.json({
@@ -123,30 +124,48 @@ const crearCatalogo = async (req, res = response) => {
 //Actualizar estapillas repetidas desde el excel.
 const editarCatExcel = async (req, res = response) => {
   try {
+    //Se guarda el body
     const objActualizar = req.body;
-    console.log("tamaño", objActualizar.length);
+
+    console.log("Tamaño array recibido", objActualizar.length);
+
+    var intermedio = [];
+
+
+
     if (objActualizar.length > 0) {
       for (let index = 0; index < objActualizar.length; index++) {
         const element = objActualizar[index];
-        console.log("Element", element);
-        var ParaBuscar = element.ParaBuscar;
-        console.log("para buscar", ParaBuscar);
+        console.log("sde envia en Pais -> ",objActualizar[index].Pais );
+        console.log("sde envia en Tema -> ",objActualizar[index].Tema );
+    
+        var { _id } = await buscarPaisNombre(objActualizar[index].Pais);
+        var temaCreado = await crearTema(objActualizar[index].Tema);
+        element.Pais = _id;
+        element.Tema = temaCreado;
 
-        const encontrarCatalogo = await Catalogo.findOne({
-          ParaBuscar: element.ParaBuscar,
-        });
-        console.log("catalogo encontrado: ", encontrarCatalogo);
-        encontrarCatalogo = objActualizar[index];
-        encontrarCatalogo.Tipo = "";
-        encontrarCatalogo.save();
+
+        var ParaBuscar = element.ParaBuscar;
+        const encontrarCatalogo = await Catalogo.findOneAndUpdate(
+          ParaBuscar, element, { new: true }
+                );
+
+
+
+
+       console.log("guardado", encontrarCatalogo);
+
+
+
       }
     }
 
     return res.json({
       ok: true,
-      body: encontrarCatalogo,
+      body: intermedio,
     });
   } catch (e) {
+    console.log("error", e);
     return res.json({
       ok: false,
       error: "error desde log",
