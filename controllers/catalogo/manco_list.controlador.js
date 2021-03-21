@@ -12,7 +12,7 @@ const actualizarMancolist = async (req, res = response) => {
 
   const email = retornarDatosJWT(token);
 
-  console.log("retornare dartos token", email);
+  console.log("retornar datos token", email);
 
   const { _id } = await Usuario.findOne({ email });
 
@@ -50,7 +50,11 @@ const actualizarMancolist = async (req, res = response) => {
 
     //Guardando la nueva ancolista del usuario
     const nuevoObjMancolist = new Mancolist(uidsEstampillasBD);
-    await nuevoObjMancolist.save();
+   const mancolistaModificada= await nuevoObjMancolist.save();
+    return res.json({
+      ok: true,
+      msg: mancolistaModificada,
+    });
   }
 };
 
