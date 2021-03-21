@@ -1,9 +1,9 @@
-post https://api.filateliaperu.com/api/catalogo/manco_list
+post https://api.filateliaperu.com/api/catalogo/manco_list/
 content-type: application/json
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xldXNlciI6ImFkbWluIiwibmFtZSI6IlBlcGl0byBQZXJleiIsImVtYWlsIjoiZG9yYWRvQGRvcmFkby5jb20iLCJlc3RhZG8iOnRydWUsImlhdCI6MTYxNjI4NjA0MiwiZXhwIjoxNjE2MzcyNDQyfQ.bqUlA8ooSvLMyYXkuVrjWiV5xzK7sSduLU7_YA4Yr9M
 
 {
-"id_estampilla":[ "604bc1fca6161a144c5484e2", "604bc1fca6161a144c5484e3" ]
+"id_estampilla":[ "60563640f18135feed5084db" ]
 }
 
 ###
