@@ -5,57 +5,53 @@ var mongo = require("mongoose");
 const { retornarDatosJWT } = require("../../middlewares/validar-jwt");
 
 const actualizarMancolist = async (req, res = response) => {
-  console.log("entramos:", req.body);
-  const { id_estampilla } = req.body;
+  const { id_estampilla, estado_estampilla } = req.body;
 
   const token = req.header("x-access-token");
 
   const email = retornarDatosJWT(token);
 
-  console.log("retornar datos token", email);
-
   const { _id } = await Usuario.findOne({ email });
 
   const id_usuario = _id;
+  console.log("id usuario", id_usuario);
+  console.log("id estampilla", id_estampilla);
 
-  //creando objeto tipo mancolista para guardar en bd
-  const objBody = new Object();
-  objBody.id_usuario = _id;
-  objBody.id_estampilla;
+  const mancoListBd = await Mancolist.findOne({
+    $and: [{ id_usuario }, { id_estampilla }],
+  });
 
-  //   objBody.id_usuario = id_usuario.replace(/\s+/g,"");
-  //  objBody.id_estampilla = id_estampilla.replace(/\s+/g,"");
-
-  //Buscando si en la base de datos collecion mancolosta existe ya el usuario
-  const existeManco_list = await Mancolist.findOne({ id_usuario });
-
-  //validando la existencia para crear un nuevo documento o actualizar
-  if (existeManco_list == null) {
-    const objParaGuardar = new Mancolist(objBody);
-    const mancolistGuardada = await objParaGuardar.save();
-    console.log("Mancolista guardada: ", mancolistGuardada.id_usuario);
-    return res.json({
+  //console.log("Buscar ->", mancoListBd);
+if (estado_estampilla && mancoListBd != null) {
+  
+  mancoListBd.estado_estampilla = estado_estampilla;
+ const estampillaActualizada = await mancoListBd.save();
+  return res.json(
+    {
       ok: true,
-      msg: mancolistGuardada,
-    });
-  } else {
-    var uidsEstampillasBD = new Array();
+      mensaje: "Se ha actualizado el estado de la estampilla de la mancolista",
+      estampilla: estampillaActualizada
 
-    console.log("_id:", existeManco_list._id);
-    await Mancolist.findByIdAndDelete({ _id: existeManco_list._id });
+    }
+    );
+  
+} else {
+  if (mancoListBd == null) {
+    const objetoMancolista = new Mancolist();
 
-    //Creanndo nuevo onbjeto con id mancolista actualizada
-    uidsEstampillasBD.id_usuario = id_usuario;
-    uidsEstampillasBD.id_estampilla = id_estampilla;
+    objetoMancolista.id_usuario = id_usuario;
+    objetoMancolista.id_estampilla = id_estampilla;
 
-    //Guardando la nueva ancolista del usuario
-    const nuevoObjMancolist = new Mancolist(uidsEstampillasBD);
-   const mancolistaModificada= await nuevoObjMancolist.save();
-    return res.json({
-      ok: true,
-      msg: mancolistaModificada,
-    });
+    const guardado = await objetoMancolista.save();
+
+    console.log("guardado", guardado);
+  }else{
+    const eliminarMancolist = await Mancolist.findByIdAndDelete(mancoListBd._id);
+    console.log("Eliminado -->", eliminarMancolist);
   }
+}
+
+
 };
 
 /*
@@ -73,7 +69,6 @@ const compartirManco_list = async (req, res = response) => {
 
   const objMancoListBD = await Mancolist.findOne({ id_usuario: id });
   try {
-    
     if (objMancoListBD != null) {
       return res.json({
         ok: true,
@@ -85,21 +80,18 @@ const compartirManco_list = async (req, res = response) => {
         msg: "Usuario aún sin mancolista",
       });
     }
-
   } catch (e) {
-  return res.json({
-    ok: false,
-    msg: "Error, contacte al administrador",
-    error: e
-  });
+    return res.json({
+      ok: false,
+      msg: "Error, contacte al administrador",
+      error: e,
+    });
   }
-
 };
 
-
 /*
-*/
- const verMancolistPropia =  async (req, res = response) => {
+ */
+const verMancolistPropia = async (req, res = response) => {
   const token = req.header("x-access-token");
 
   const email = retornarDatosJWT(token);
@@ -113,7 +105,6 @@ const compartirManco_list = async (req, res = response) => {
       ok: true,
       msg: obj,
     });
-
   } else {
     res.status(400).json({
       ok: false,
@@ -126,5 +117,5 @@ const compartirManco_list = async (req, res = response) => {
 module.exports = {
   actualizarMancolist,
   compartirManco_list,
-  verMancolistPropia
+  verMancolistPropia,
 };

@@ -1,13 +1,14 @@
-post https://api.filateliaperu.com/api/catalogo/manco_list/
+post http://localhost:3000/api/catalogo/manco_list/
 content-type: application/json
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xldXNlciI6ImFkbWluIiwibmFtZSI6IlBlcGl0byBQZXJleiIsImVtYWlsIjoiZG9yYWRvQGRvcmFkby5jb20iLCJlc3RhZG8iOnRydWUsImlhdCI6MTYxNjI4NjA0MiwiZXhwIjoxNjE2MzcyNDQyfQ.bqUlA8ooSvLMyYXkuVrjWiV5xzK7sSduLU7_YA4Yr9M
 
 {
-"id_estampilla":[ "60563640f18135feed5084db" ]
+"id_estampilla": "60563642f18135feed5084e0",
+"estado_estampilla": "Usada" 
 }
 
 ###
-get https://filateliab.doubleflyindustries.com/api/catalogo/manco_list/listar/60417ba2f37c05074c85ddf6
+get  http://localhost:3000/api/catalogo/manco_list/listar/60417ba2f37c05074c85ddf6
 content-type: application/json
 
 {
@@ -16,7 +17,7 @@ content-type: application/json
 ###
 post http://localhost:3000/api/catalogo/manco_list/listar
 content-type: application/json
-x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xldXNlciI6ImFkbWluIiwibmFtZSI6IlJvZHJpZ29PbGFndWUiLCJlbWFpbCI6ImRvcmFkb0Bkb3JhZG8uY29tIiwiZXN0YWRvIjp0cnVlLCJpYXQiOjE2MTU0MDQwMzMsImV4cCI6MTYxNTQ5MDQzM30.Mv2NUDnGzpmpAsTxakORhG__9X0V6k9nNmn2E9PmfnM
+x-access-token:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xldXNlciI6ImFkbWluIiwibmFtZSI6IlBlcGl0byBQZXJleiIsImVtYWlsIjoiZG9yYWRvQGRvcmFkby5jb20iLCJlc3RhZG8iOnRydWUsImlhdCI6MTYxNjI4NjA0MiwiZXhwIjoxNjE2MzcyNDQyfQ.bqUlA8ooSvLMyYXkuVrjWiV5xzK7sSduLU7_YA4Yr9M
 
 {
 
