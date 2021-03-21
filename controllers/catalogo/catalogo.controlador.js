@@ -66,7 +66,6 @@ const crearCatalogo = async (req, res = response) => {
         repetidos.push(datosFinal[index]);
       }
     }
-    console.log("Estamplillas repetidas ->");
     console.log("Contador: ", contador);
     if (inCompletos.length == 0 && contador == 0) {
       return res.json({
@@ -97,7 +96,7 @@ const crearCatalogo = async (req, res = response) => {
             msg: "Se omitieron algunas estampillas por estar repetidas",
             archivos_subidos: noRepetidos.length,
             total_estampillas_omitidas: contador,
-            estipillas_omitidas: repetidos,
+            estampillas_repetidas: repetidos,
           });
         }
         return res.json({
@@ -123,30 +122,53 @@ const crearCatalogo = async (req, res = response) => {
 //Actualizar estapillas repetidas desde el excel.
 const editarCatExcel = async (req, res = response) => {
   try {
+    //Se guarda el body
     const objActualizar = req.body;
-    console.log("tamaño", objActualizar.length);
+
+    console.log("Tamaño array recibido", objActualizar.length);
+    let total_elementos_actualizar = objActualizar.length;
+
+    var actualizados = [];
+
     if (objActualizar.length > 0) {
       for (let index = 0; index < objActualizar.length; index++) {
         const element = objActualizar[index];
-        console.log("Element", element);
-        var ParaBuscar = element.ParaBuscar;
-        console.log("para buscar", ParaBuscar);
+        console.log("sde envia en Pais -> ", objActualizar[index].Pais);
+        console.log("sde envia en Tema -> ", objActualizar[index].Tema);
 
-        const encontrarCatalogo = await Catalogo.findOne({
-          ParaBuscar: element.ParaBuscar,
-        });
-        console.log("catalogo encontrado: ", encontrarCatalogo);
-        encontrarCatalogo = objActualizar[index];
-        encontrarCatalogo.Tipo = "";
-        encontrarCatalogo.save();
+        var { _id } = await buscarPaisNombre(objActualizar[index].Pais);
+        var temaCreado = await crearTema(objActualizar[index].Tema);
+        element.Pais = _id;
+        element.Tema = temaCreado;
+
+        var ParaBuscar = element.ParaBuscar;
+        const encontrarCatalogo = await Catalogo.findOneAndUpdate(
+          ParaBuscar,
+          element,
+          { new: true }
+        );
+
+        if (encontrarCatalogo && encontrarCatalogo != null) {
+          actualizados.push(element);
+        }
+
+        console.log("guardado", encontrarCatalogo);
       }
+    } else {
+      return res.json({
+        ok: false,
+        mensaje: "Debes enviar un objeto que contenga datos",
+      });
     }
 
     return res.json({
       ok: true,
-      body: encontrarCatalogo,
+      total_elementos_actualizar: total_elementos_actualizar,
+      total_elementos_actualizados: actualizados.length,
+      elementos_actualizados: actualizados,
     });
   } catch (e) {
+    console.log("error", e);
     return res.json({
       ok: false,
       error: "error desde log",
@@ -179,6 +201,50 @@ const mostrarCatalogoPais = async (req, res) => {
     ok: true,
     catalogoPorPais: paisBuscado,
   });
+};
+
+//Mostrar catalogo por rango de años
+const mostrarCatalogoAnio = async (req, res) => {
+  const { anioI, anioF } = req.params;
+try {
+  if ( Number(anioI) && Number(anioF)) {
+    console.log("anio f", Number(anioF));
+    const catalogoCompleto = await Catalogo.find({
+      $and: [
+        {
+          Anio: {
+            $gte: Number(anioI),
+          },
+        },
+
+        {
+          Anio: {
+            $lte: Number(anioF),
+          },
+        },
+      ],
+    });
+
+    res.json({
+      ok: true,
+      catalogoPorPais: catalogoCompleto,
+    });
+  }else{
+    res.json({
+      ok: false,
+      catalogoPorPais: "Recierda que debes enviar valores numéricos",
+      datos_recibidos: "Año inicial: "+anioI+" | Año final: "+anioF
+    });
+
+  }
+
+} catch (e) {
+  return res.json({
+    ok:false,
+    mensaje: "Error crítico, comunicate con el administrador | catalogoControlador-> mostrarCatalogoAnio()"
+  });
+
+}
 };
 
 const mostrarCatalogo = async (req, res) => {
@@ -348,4 +414,5 @@ module.exports = {
   eliminarCatalogo,
   editarCatExcel,
   mostrarCatalogoPais,
+  mostrarCatalogoAnio,
 };

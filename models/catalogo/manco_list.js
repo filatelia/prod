@@ -12,7 +12,15 @@ const manco_listSchema = Schema({
         ref: 'Catalogo',
         required : true,
         autopopulate: true
-    }]
+    }],
+    nueva : {
+        type: String,
+        require: false,
+        default: "Es indiferente"
+
+
+    }
+
 }, { collection: 'bdfc_manco_list' });
 manco_listSchema.plugin(require('mongoose-autopopulate'));
 
