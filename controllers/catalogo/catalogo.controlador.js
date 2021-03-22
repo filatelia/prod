@@ -45,23 +45,30 @@ const crearCatalogo = async (req, res = response) => {
         datosFinal[index].Foto_JPG_800x800_px = urlImagenCat;
 
         //Buscando id pais con el nombre
-        var { _id } = await buscarPaisNombre(datosFinal[index].Pais);
-        datosFinal[index].Pais = _id;
+        var pais = await buscarPaisNombre(datosFinal[index].Pais);
+        if(pais){
+          var _id=pais
+          datosFinal[index].Pais = _id;
 
-        //Buscar o crear tema por nombre
+          //Buscar o crear tema por nombre
 
-        console.log("tema enviado", datosFinal[index].Tema);
+          console.log("tema enviado", datosFinal[index].Tema);
 
-        var temaCreado = await crearTema(datosFinal[index].Tema);
+          var temaCreado = await crearTema(datosFinal[index].Tema);
 
-        console.log("tema creadossssss->", temaCreado);
-        datosFinal[index].Tema = temaCreado;
+          console.log("tema creadossssss->", temaCreado);
+          datosFinal[index].Tema = temaCreado;
+
 
         var nuevoCatalogo = new Estampillas(datosFinal[index]);
         console.log("Nuevo catalogo", nuevoCatalogo);
 
-        const guardar = await nuevoCatalogo.save();
-        console.log("Guardar::::", guardar);
+          const guardar = await nuevoCatalogo.save();
+          console.log("Guardar::::", guardar);
+        }
+        else{
+          inCompletos.push(element)
+        }
       } else {
         contador = contador + 1;
         repetidos.push(datosFinal[index]);
