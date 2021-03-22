@@ -156,10 +156,14 @@ const mostarSolicitudesTotales = async (req, res = response) =>{
     ); 
 
 }
+const aprobacion = async () =>{
+  console.log("Entramos");
+}
 module.exports = {
   crearSolicitud,
   mostarSolicitudes,
-  mostarSolicitudesTotales
+  mostarSolicitudesTotales,
+  aprobacion
 
 
 };
