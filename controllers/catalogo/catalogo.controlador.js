@@ -6,6 +6,7 @@ const Tema = require("../../models/catalogo/temas");
 const Img = require("../../models/catalogo/uploads");
 const fs = require("fs");
 const Path = require("path");
+const Estampillas = require('../../models/catalogo/estampillas.modelo');
 const { getPaisByName } = require("../catalogo/pais.controlador");
 const Pais = require("../../models/catalogo/paises");
 const { crearTema } = require("../../middlewares/index.middle");
@@ -56,7 +57,7 @@ const crearCatalogo = async (req, res = response) => {
         console.log("tema creadossssss->", temaCreado);
         datosFinal[index].Tema = temaCreado;
 
-        var nuevoCatalogo = new Catalogo(datosFinal[index]);
+        var nuevoCatalogo = new Estampillas(datosFinal[index]);
         console.log("Nuevo catalogo", nuevoCatalogo);
 
         const guardar = await nuevoCatalogo.save();
@@ -142,7 +143,7 @@ const editarCatExcel = async (req, res = response) => {
         element.Tema = temaCreado;
 
         var ParaBuscar = element.ParaBuscar;
-        const encontrarCatalogo = await Catalogo.findOneAndUpdate(
+        const encontrarCatalogo = await Estampillas.findOneAndUpdate(
           ParaBuscar,
           element,
           { new: true }
@@ -188,7 +189,7 @@ const mostrarCatalogoPais = async (req, res) => {
   const { pais } = req.params;
   var buscar = pais.toLowerCase().replace(/\s+/g, "");
 
-  const catalogoCompleto = await Catalogo.find();
+  const catalogoCompleto = await Estampillas.find();
   var paisBuscado = [];
   for (let index = 0; index < catalogoCompleto.length; index++) {
     const element = catalogoCompleto[index].Pais.para_buscar;
@@ -209,7 +210,7 @@ const mostrarCatalogoAnio = async (req, res) => {
 try {
   if ( Number(anioI) && Number(anioF)) {
     console.log("anio f", Number(anioF));
-    const catalogoCompleto = await Catalogo.find({
+    const catalogoCompleto = await Estampillas.find({
       $and: [
         {
           Anio: {
@@ -260,7 +261,7 @@ const eliminarCatalogo = async (req, res) => {
   try {
     console.log("entramos a eliminar", id);
 
-    const eliminarElementoCatalogo = await Catalogo.findOneAndDelete(id);
+    const eliminarElementoCatalogo = await Estampillas.findOneAndDelete(id);
     console.log("elemento eliminado:", eliminarElementoCatalogo);
 
     return res.json({
@@ -365,7 +366,7 @@ async function validarEstampillasRepetidas(datosValidados) {
   for (let index = 0; index < datosValidados.length; index++) {
     const element = datosValidados[index];
     if (element.completo == true) {
-      const buscarRepetido = await Catalogo.findOne({
+      const buscarRepetido = await Estampillas.findOne({
         ParaBuscar: element.Foto_JPG_800x800_px.toLowerCase().replace(
           /\s+/g,
           ""
