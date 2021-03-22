@@ -249,7 +249,7 @@ try {
 };
 
 const mostrarCatalogo = async (req, res) => {
-  const catalogoCompleto = await Catalogo.find();
+  const catalogoCompleto = await Estampillas.find();
 
   res.json({
     ok: true,
