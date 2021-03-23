@@ -174,7 +174,9 @@ const crearCatalogoAdmin = async (solicitudGuardada) => {
 
     const catalogoGuardado = await objCatalogo.save();
     return catalogoGuardado;
-  } catch (e) {}
+  } catch (e) {
+    console.log("error ->", e);
+  }
 };
 
 const mostarSolicitudes = async (req, res = response) => {
