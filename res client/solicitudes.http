@@ -11,7 +11,7 @@ x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xldXNlciI6ImNsaWVudGU
 }
 
 ###
-//Nueva solicitud cliente
+//Nueva solicitud admion
 post http://localhost:3000/api/solicitudes/
 content-type: application/json
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xldXNlciI6ImFkbWluIiwibmFtZSI6IlBlcGl0byBQZXJleiIsImVtYWlsIjoiZG9yYWRvQGRvcmFkby5jb20iLCJlc3RhZG8iOnRydWUsImlhdCI6MTYxNjUzMTA2NiwiZXhwIjoxNjE2NjE3NDY2fQ.tK0yTvZO3ZxP4cgnxdi0R3zm9R5LjrwIlW2KW3SqHPs
