@@ -23,3 +23,15 @@ content-type: application/json
 get http://localhost:3000/api/catalogo/uploads/excel/mis-catalogos
 content-type: application/json
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xldXNlciI6ImNsaWVudGUiLCJuYW1lIjoiUGFyYSBwcnVlYmFzIGVudmlvIGVtYWlsIiwiZW1haWwiOiJwcnVlYmFzLWZpbGF0ZWxpYUB5b3BtYWlsLmNvbSIsImVzdGFkbyI6dHJ1ZSwiaWF0IjoxNjE2NTI3NjkwLCJleHAiOjE2MTY2MTQwOTB9.2TBGwCr-zPrbp3eE5l1nu8DejH91-D75uCe16O3k5jw
+
+
+
+###
+get http://localhost:3000/api/catalogo/uploads/excel/mis-estampillas
+content-type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xldXNlciI6ImNsaWVudGUiLCJuYW1lIjoiUGFyYSBwcnVlYmFzIGVudmlvIGVtYWlsIiwiZW1haWwiOiJwcnVlYmFzLWZpbGF0ZWxpYUB5b3BtYWlsLmNvbSIsImVzdGFkbyI6dHJ1ZSwiaWF0IjoxNjE2NTI3NjkwLCJleHAiOjE2MTY2MTQwOTB9.2TBGwCr-zPrbp3eE5l1nu8DejH91-D75uCe16O3k5jw
+
+{
+    "id_catalogo": "605a6a396b9551150612f502"
+}
+

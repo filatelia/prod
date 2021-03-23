@@ -355,6 +355,17 @@ const mostrarMisCatalogos = async (req, res) => {
     catalogo: catalosgos,
   });
 };
+const mostrarMisEstampillas = async (req, res) =>{
+  var id_catalogo = req.body.id_catalogo;
+
+  var estampillasCat = await  Estampillas.find({Catalogo:id_catalogo});
+  
+  return res.json({
+    ok:true,
+    estampillas: estampillasCat
+  });
+
+}
 
 //funciones
 function procesarExcel(exc) {
@@ -496,4 +507,5 @@ module.exports = {
   mostrarCatalogoPais,
   mostrarCatalogoAnio,
   mostrarMisCatalogos,
+  mostrarMisEstampillas
 };
