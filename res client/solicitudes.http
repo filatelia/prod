@@ -1,4 +1,4 @@
-//Nueva solicitud
+//Nueva solicitud cliente
 post https://api.filateliaperu.com/api/solicitudes/
 content-type: application/json
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xldXNlciI6ImNsaWVudGUiLCJuYW1lIjoiUGFyYSBwcnVlYmFzIGVudmlvIGVtYWlsIiwiZW1haWwiOiJwcnVlYmFzLWZpbGF0ZWxpYUB5b3BtYWlsLmNvbSIsImVzdGFkbyI6dHJ1ZSwiaWF0IjoxNjE2NTIyNDEyLCJleHAiOjE2MTY2MDg4MTJ9.Va1dRdefGuMqLZaNDcD2J0ilhFwWjJUa4x1Hpc0xKHE
@@ -9,6 +9,21 @@ x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xldXNlciI6ImNsaWVudGU
 "pais" : "Peru", 
 "valor_catalogo" :"Para email" 
 }
+
+###
+//Nueva solicitud cliente
+post http://localhost:3000/api/solicitudes/
+content-type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xldXNlciI6ImFkbWluIiwibmFtZSI6IlBlcGl0byBQZXJleiIsImVtYWlsIjoiZG9yYWRvQGRvcmFkby5jb20iLCJlc3RhZG8iOnRydWUsImlhdCI6MTYxNjUzMTA2NiwiZXhwIjoxNjE2NjE3NDY2fQ.tK0yTvZO3ZxP4cgnxdi0R3zm9R5LjrwIlW2KW3SqHPs
+
+{
+
+"catalogo_nombre": "Solicitud admin", 
+"pais" : "Peru", 
+"valor_catalogo" :"Debe aprobarse automáticamente" 
+}
+
+
 
 ###
 
