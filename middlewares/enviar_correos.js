@@ -8,6 +8,9 @@ const enviarCorreos = async (res = response) => {
     console.log("entramos a correo");
 
     //Consultar usuarios administrador
+    //Consultar usuarios administrador
+    //Consultar usuarios administrador
+    //Consultar usuarios administrador
     const administradores = await consultarUsuariosAdmin();
 
     const transporter = nodemailer.createTransport({
