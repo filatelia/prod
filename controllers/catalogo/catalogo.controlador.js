@@ -356,7 +356,7 @@ const mostrarMisCatalogos = async (req, res) => {
   });
 };
 const mostrarMisEstampillas = async (req, res) =>{
-  var id_catalogo = req.body.id_catalogo;
+  var id_catalogo = req.query.id_catalogo;
 
   var estampillasCat = await  Estampillas.find({Catalogo:id_catalogo});
   
