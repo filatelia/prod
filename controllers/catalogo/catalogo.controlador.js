@@ -200,19 +200,8 @@ var id_solicitud = await Catalogo.findOne({_id:id_catalogo});
       console.log("Abreviacion: ", abreviacionSolicitud);
       var solicitudActuaizada = await abreviacionSolicitud.save();
 
-      return res.json({
-        ok: true,
-        solicitudEnviada: solicitudActuaizada,
-      });
-    } else {
-      return res.json({
-        ok: true,
-        mensaje:
-          "No puedes hacer ésta solicitud pues el estado de la solicitud es: " +
-          abreviacionConIdRecibido.abreviacion,
-        descripcion: abreviacionConIdRecibido.name,
-      });
-    }
+      return solicitudActuaizada;
+    } 
   }
 }
 //Actualizar estapillas repetidas desde el excel.
