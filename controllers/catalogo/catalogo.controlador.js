@@ -122,7 +122,7 @@ const crearCatalogo = async (req, res = response) => {
       }
     }
 
-    crearSolicitud(idCatalogo);
+  await crearSolicitud(idCatalogo);
     console.log("Contador: ", contador);
     if (inCompletos.length == 0 && contador == 0) {
       return res.json({
