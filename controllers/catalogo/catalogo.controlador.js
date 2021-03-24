@@ -177,12 +177,12 @@ const crearCatalogo = async (req, res = response) => {
   }
 };
 async function crearSolicitud(id_catalogo) {
-
-var id_solicitud = await Catalogo.findOne({solicitud:id_catalogo});
+console.log("Id catalogo", id_catalogo);
+var id_solicitud = await Catalogo.findOne({_id:id_catalogo});
 
   console.log("Id solicitud desde excel", id_solicitud);
-  if (id_solicitud._id && id_solicitud._id != null) {
-    var id_estadoSolicitud = id_solicitud._id;
+  if (id_solicitud._id && id_solicitud.solicitud != null) {
+    var id_estadoSolicitud = id_solicitud.solicitud;
     const abreviacionSolicitud = await Solicitud.findById(id_estadoSolicitud);
     console.log("abreviacionSolicitud --->", abreviacionSolicitud);
     const abreviacionConIdRecibido = await Tipo_solicitud.findOne({
