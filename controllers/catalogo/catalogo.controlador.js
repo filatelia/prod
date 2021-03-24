@@ -12,6 +12,8 @@ const Pais = require("../../models/catalogo/paises");
 const { crearTema } = require("../../middlewares/index.middle");
 const { isValidObjectId } = require("mongoose");
 const { retornarDatosJWT } = require("../../middlewares/index.middle");
+const Tipo_solicitud = require("../../models/solicitudes/tipoEstadoSolicitud.model");
+const Solicitud = require("../../models/solicitudes/solicitudes.model");
 
 const crearCatalogo = async (req, res = response) => {
   try {
@@ -71,7 +73,7 @@ const crearCatalogo = async (req, res = response) => {
         inCompletos.push(element);
       }
     }
-    const datosFinal = await validarEstampillasRepetidas(completos);
+    const datosFinal = await validarEstampillasRepetidas(completos, idCatalogo);
     var contador = 0;
     var repetidos = [];
     var noRepetidos = [];
@@ -119,6 +121,8 @@ const crearCatalogo = async (req, res = response) => {
         repetidos.push(datosFinal[index]);
       }
     }
+
+    crearSolicitud(idCatalogo);
     console.log("Contador: ", contador);
     if (inCompletos.length == 0 && contador == 0) {
       return res.json({
@@ -172,6 +176,39 @@ const crearCatalogo = async (req, res = response) => {
     });
   }
 };
+async function crearSolicitud(id_solicitud) {
+  if (id_solicitud && id_solicitud != null) {
+    var id_estadoSolicitud = id_solicitud;
+    const abreviacionSolicitud = await Solicitud.findById(id_estadoSolicitud);
+    const abreviacionConIdRecibido = await Tipo_solicitud.findOne({
+      _id: abreviacionSolicitud.tipoEstadoSolicitud_id,
+    });
+
+    if (abreviacionConIdRecibido.abreviacion == "ACE1") {
+      var { _id } = await Tipo_solicitud.findOne(
+        { abreviacion: "EACE2" },
+        { _id: 1 }
+      );
+
+      abreviacionSolicitud.tipoEstadoSolicitud_id = _id;
+      console.log("Abreviacion: ", abreviacionSolicitud);
+      var solicitudActuaizada = await abreviacionSolicitud.save();
+
+      return res.json({
+        ok: true,
+        solicitudEnviada: solicitudActuaizada,
+      });
+    } else {
+      return res.json({
+        ok: true,
+        mensaje:
+          "No puedes hacer ésta solicitud pues el estado de la solicitud es: " +
+          abreviacionConIdRecibido.abreviacion,
+        descripcion: abreviacionConIdRecibido.name,
+      });
+    }
+  }
+}
 //Actualizar estapillas repetidas desde el excel.
 const editarCatExcel = async (req, res = response) => {
   try {
@@ -355,17 +392,16 @@ const mostrarMisCatalogos = async (req, res) => {
     catalogo: catalosgos,
   });
 };
-const mostrarMisEstampillas = async (req, res) =>{
+const mostrarMisEstampillas = async (req, res) => {
   var id_catalogo = req.query.id_catalogo;
 
-  var estampillasCat = await  Estampillas.find({Catalogo:id_catalogo});
-  
-  return res.json({
-    ok:true,
-    estampillas: estampillasCat
-  });
+  var estampillasCat = await Estampillas.find({ Catalogo: id_catalogo });
 
-}
+  return res.json({
+    ok: true,
+    estampillas: estampillasCat,
+  });
+};
 
 //funciones
 function procesarExcel(exc) {
@@ -451,16 +487,23 @@ function validarCamposExcel(datos) {
   return datos;
 }
 //Se verifica si las espampillas subidas ya existen en la base de datos
-async function validarEstampillasRepetidas(datosValidados) {
+async function validarEstampillasRepetidas(datosValidados, id_catalogo) {
   var estampillasRepetidas = [];
   for (let index = 0; index < datosValidados.length; index++) {
     const element = datosValidados[index];
     if (element.completo == true) {
       const buscarRepetido = await Estampillas.findOne({
-        ParaBuscar: element.Foto_JPG_800x800_px.toLowerCase().replace(
-          /\s+/g,
-          ""
-        ),
+        $and: [
+          {
+            ParaBuscar: element.Foto_JPG_800x800_px.toLowerCase().replace(
+              /\s+/g,
+              ""
+            ),
+          },
+          {
+            Catalogo: id_catalogo,
+          },
+        ],
       });
       if (buscarRepetido != null) {
         element.repetido = true;
@@ -507,5 +550,5 @@ module.exports = {
   mostrarCatalogoPais,
   mostrarCatalogoAnio,
   mostrarMisCatalogos,
-  mostrarMisEstampillas
+  mostrarMisEstampillas,
 };

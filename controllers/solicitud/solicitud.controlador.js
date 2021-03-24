@@ -150,6 +150,7 @@ const crearSolicitud = async (req, res = response) => {
   }
 };
 
+
 const crearCatalogo = async (solicitudGuardada) => {
   try {
     const objCatalogo = new Catalogo();
