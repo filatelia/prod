@@ -347,7 +347,7 @@ const mostrarMisCatalogos = async (req, res) => {
     const element = catalogoBD[index].solicitud;
 
     if (element.usuario_id.email == email) {
-      catalosgos.push(element);
+      catalosgos.push(catalogoBD[index]);
     }
   }
   return res.json({
